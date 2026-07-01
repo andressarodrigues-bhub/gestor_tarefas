@@ -54,13 +54,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 .filter-dropdown-menu.open{display:block;}
 .fdm-item{padding:9px 14px;font-size:13px;color:#374151;cursor:pointer;display:flex;align-items:center;gap:8px;}
 .fdm-item:hover{background:#f9fafb;}
-.fdm-item.active{color:#0171E4;font-weight:600;}
-.fdm-item.active-fiscal{color:#2E7D4F;font-weight:600;}
-.fdm-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.fdm-dot.dp{background:#0171E4;}.fdm-dot.fiscal{background:#2E7D4F;}.fdm-dot.ctb{background:#7c3aed;}
-.motor-chip-active{background:#eff6ff;border-color:#0171E4;color:#1d4ed8;font-weight:600;}
-.motor-chip-active-fiscal{background:#f0fdf4;border-color:#2E7D4F;color:#166534;font-weight:600;}
-.motor-chip-active-ctb{background:#f5f3ff;border-color:#7c3aed;color:#6d28d9;font-weight:600;}
+.fdm-item.active{color:#111827;font-weight:700;}
+.filter-chip-active{background:#f3f4f6;border-color:#9ca3af;color:#111827;font-weight:700;}
 
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;}
 .section-title{font-size:16px;font-weight:700;color:#111;}
@@ -88,9 +83,9 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 
 /* DEPT BADGE */
 .dept-badge{display:inline-flex;align-items:center;gap:4px;padding:1px 7px;border-radius:4px;font-size:10.5px;font-weight:700;letter-spacing:0.02em;}
-.dept-badge.dp{background:#dbeafe;color:#1d4ed8;}
-.dept-badge.fiscal{background:#dcfce7;color:#166534;}
-.dept-badge.ctb{background:#ede9fe;color:#6d28d9;}
+.dept-badge.dp{background:#f3f4f6;color:#374151;}
+.dept-badge.fiscal{background:#f3f4f6;color:#374151;}
+.dept-badge.ctb{background:#f3f4f6;color:#374151;}
 
 /* TABLE */
 .task-table{width:100%;border-collapse:collapse;}
@@ -110,6 +105,19 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 .task-info{flex:1;padding:8px 0;}
 .task-name{font-size:12.5px;font-weight:600;color:#111;line-height:1.3;}
 .task-cnpj{font-size:10.5px;color:#9ca3af;font-family:monospace;margin-top:1px;}
+.task-origem{font-family:"Inter",sans-serif;color:#9ca3af;}
+.task-erp{font-size:10px;color:#9ca3af;margin-top:1px;}
+.tag-autopilot{font-size:9.5px;color:#9ca3af;background:#f3f4f6;padding:1px 5px;border-radius:3px;font-weight:500;margin-left:2px;}
+.tag-hub{font-size:9.5px;color:#9ca3af;background:#f3f4f6;padding:1px 4px;border-radius:3px;font-weight:500;margin-left:2px;}
+/* ── FILTER BOX (topo) ── */
+.filter-box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+/* ── GROUP-BY BOX ── */
+.groupby-box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.groupby-label{font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;flex-shrink:0;}
+.groupby-pills{display:flex;gap:6px;}
+.gb-pill{padding:6px 16px;border-radius:8px;font-size:12.5px;font-weight:600;color:#6b7280;cursor:pointer;background:#f9fafb;border:1px solid #f3f4f6;user-select:none;}
+.gb-pill:hover{background:#f3f4f6;color:#374151;}
+.gb-pill.active{background:#111827;color:#fff;border-color:#111827;}
 .cell-pad{padding:0 9px;}
 .task-tipo-col{font-size:12.5px;color:#374151;}
 .competencia-col{font-size:11.5px;color:#374151;font-family:monospace;white-space:nowrap;}
@@ -129,12 +137,40 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 .task-eye svg{width:15px;height:15px;}
 .td-sol{width:24%;}.td-tipo{width:18%;}.td-dept{width:7%;}.td-comp{width:9%;}.td-estado{width:15%;}.td-prazo{width:18%;}.td-eye{width:36px;}
 
-/* SLIDE-OVER */
-.panel-overlay{position:fixed;inset:0;z-index:200;pointer-events:none;}
-.panel-overlay.open{pointer-events:auto;}
-.side-panel{position:fixed;top:0;right:0;bottom:0;width:500px;background:#fff;z-index:201;display:flex;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,0.10);transform:translateX(100%);transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);}
-.side-panel.open{transform:translateX(0);}
-.sp-topbar{padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-shrink:0;}
+/* TASK MODAL (centered, replaces old slide-over) */
+.panel-overlay{position:fixed;inset:0;z-index:200;background:rgba(17,24,39,0.5);opacity:0;pointer-events:none;transition:opacity 0.15s;}
+.panel-overlay.open{opacity:1;pointer-events:auto;}
+.side-panel{position:fixed;top:50%;left:50%;width:560px;max-width:calc(100% - 32px);max-height:86vh;background:#fff;border-radius:14px;z-index:201;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,0.30);opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(0.97);transition:opacity 0.15s, transform 0.15s;overflow:hidden;}
+.side-panel.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1);}
+.tm-header{padding:18px 20px 14px;border-bottom:1px solid #f3f4f6;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-shrink:0;}
+.tm-eyebrow{font-size:10px;font-weight:700;letter-spacing:0.07em;margin-bottom:5px;}
+.tm-title{font-size:19px;font-weight:800;color:#111;line-height:1.25;margin-bottom:5px;}
+.tm-clientline{font-size:12px;color:#374151;margin-bottom:6px;}
+.tm-metaline{font-size:12px;color:#6b7280;margin-top:3px;}
+.tm-metaline strong{color:#374151;font-weight:700;}
+.tm-dot{color:#d1d5db;margin:0 2px;}
+.tm-pill-cliente{display:inline-flex;padding:1px 8px;border-radius:999px;background:#fef2f2;color:#dc2626;font-size:11px;font-weight:700;}
+.tm-pill-status{display:inline-flex;padding:2px 9px;border-radius:999px;background:#fff7ed;color:#c2410c;font-size:11px;font-weight:700;border:1px solid #fdba74;}
+.tm-tabs{display:flex;align-items:center;gap:4px;padding:0 20px;border-bottom:1px solid #f3f4f6;flex-shrink:0;}
+.tm-tab{padding:11px 4px;margin-right:18px;font-size:13px;font-weight:600;color:#9ca3af;cursor:pointer;border-bottom:2px solid transparent;}
+.tm-tab:hover{color:#374151;}
+.tm-tab.active{color:#111;border-bottom-color:#111;}
+.tm-body-scroll{flex:1;overflow-y:auto;}
+.tm-tabpanel{display:none;}
+.tm-tabpanel.active{display:block;}
+.tm-resumo-box{padding:16px 20px;}
+.tm-resumo-row{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #f9fafb;font-size:12.5px;color:#6b7280;}
+.tm-resumo-row strong{color:#111;font-weight:600;}
+.tm-empty-state{padding:40px 20px;text-align:center;font-size:12.5px;color:#9ca3af;}
+.tm-footer{padding:12px 20px;border-top:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:#fafafa;}
+.tm-copylink{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;}
+.tm-copylink svg{width:13px;height:13px;}
+.tm-copylink:hover{color:#374151;}
+.tm-footer-right{display:flex;align-items:center;gap:8px;}
+.tm-btn-secondary{padding:8px 16px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;font-size:12.5px;font-weight:600;color:#374151;cursor:pointer;}
+.tm-btn-secondary:hover{background:#f9fafb;}
+.tm-btn-primary{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;border:none;background:#f25461;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer;}
+.tm-btn-primary:hover{background:#e13d4b;}
 .sp-close{width:26px;height:26px;border-radius:6px;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#6b7280;flex-shrink:0;}
 .sp-close:hover{background:#f3f4f6;}
 .sp-title{font-size:15px;font-weight:700;color:#111;line-height:1.3;}
@@ -349,9 +385,9 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 #fech-app .progtype-body{padding:6px 0;}
 #fech-app .progtype-group-hd{padding:10px 16px 6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#9ca3af;background:#fafafa;border-top:1px solid #f3f4f6;display:flex;align-items:center;gap:6px;}
 #fech-app .progtype-group-hd .dot{width:7px;height:7px;border-radius:50%;}
-#fech-app .progtype-group-hd.dp .dot{background:#1d4ed8;}
-#fech-app .progtype-group-hd.fiscal .dot{background:#166534;}
-#fech-app .progtype-group-hd.ctb .dot{background:#6d28d9;}
+#fech-app .progtype-group-hd.dp .dot{background:#6b7280;}
+#fech-app .progtype-group-hd.fiscal .dot{background:#6b7280;}
+#fech-app .progtype-group-hd.ctb .dot{background:#6b7280;}
 #fech-app .progtype-group-hd .count{margin-left:auto;font-weight:500;text-transform:none;letter-spacing:0;color:#9ca3af;}
 #fech-app .pt-row{display:grid;grid-template-columns:200px 1fr 140px 70px;align-items:center;gap:14px;padding:9px 16px;border-bottom:1px solid #f9fafb;}
 #fech-app .pt-row:last-child{border-bottom:none;}
@@ -404,9 +440,9 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 #fech-app .cli2-motor{display:flex;align-items:flex-start;gap:8px;flex:1;max-width:320px;}
 #fech-app .cli2-motor-bar-col{flex:1;display:flex;flex-direction:column;gap:2px;position:relative;}
 #fech-app .cli2-motor-tag{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0;white-space:nowrap;}
-#fech-app .cli2-motor-tag.dp{background:#dbeafe;color:#1d4ed8;}
-#fech-app .cli2-motor-tag.fiscal{background:#dcfce7;color:#166534;}
-#fech-app .cli2-motor-tag.ctb{background:#ede9fe;color:#6d28d9;}
+#fech-app .cli2-motor-tag.dp{background:#f3f4f6;color:#374151;}
+#fech-app .cli2-motor-tag.fiscal{background:#f3f4f6;color:#374151;}
+#fech-app .cli2-motor-tag.ctb{background:#f3f4f6;color:#374151;}
 #fech-app .cli2-motor-tag.na{background:#f3f4f6;color:#d1d5db;}
 #fech-app /* consolidated below */
 /* consolidated below */
@@ -454,9 +490,9 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 #fech-app .cli2-body-dot.dep{background:#c4b5fd;}
 #fech-app .cli2-body-name{flex:1;}
 #fech-app .cli2-dept-tag{font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:4px;flex-shrink:0;white-space:nowrap;text-transform:uppercase;letter-spacing:0.03em;}
-#fech-app .cli2-dept-tag.dp{background:#dbeafe;color:#1d4ed8;}
-#fech-app .cli2-dept-tag.fiscal{background:#dcfce7;color:#166534;}
-#fech-app .cli2-dept-tag.ctb{background:#ede9fe;color:#6d28d9;}
+#fech-app .cli2-dept-tag.dp{background:#f3f4f6;color:#374151;}
+#fech-app .cli2-dept-tag.fiscal{background:#f3f4f6;color:#374151;}
+#fech-app .cli2-dept-tag.ctb{background:#f3f4f6;color:#374151;}
 #fech-app .cli2-body-val{color:#9ca3af;font-size:11.5px;}
 #fech-app .cli2-link{font-size:11.5px;font-weight:600;color:#f25461;cursor:pointer;margin-left:auto;}
 #fech-app .cli2-link:hover{text-decoration:underline;}
@@ -515,9 +551,9 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 #fech-app /* ── TASK CARD (client view) ── */
 .cv-dept-title{font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 #fech-app .dept-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;}
-#fech-app .dept-badge.dp{background:#dbeafe;color:#1d4ed8;}
-#fech-app .dept-badge.fiscal{background:#dcfce7;color:#166534;}
-#fech-app .dept-badge.ctb{background:#ede9fe;color:#6d28d9;}
+#fech-app .dept-badge.dp{background:#f3f4f6;color:#374151;}
+#fech-app .dept-badge.fiscal{background:#f3f4f6;color:#374151;}
+#fech-app .dept-badge.ctb{background:#f3f4f6;color:#374151;}
 #fech-app .task-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:10px;}
 #fech-app .task-card-hd{padding:12px 18px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;gap:12px;}
 #fech-app .task-card-title{font-size:13px;font-weight:700;color:#111;}
@@ -591,6 +627,118 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
     </div>
   </div>
   <div class="content">
+    <!-- ═══ FILTER BOX (topo) ═══ -->
+    <div class="filter-box">
+      <div class="filter-chip">📅 Hoje <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="filter-dropdown" id="cliente-dropdown">
+        <div class="filter-chip" id="cliente-chip" onclick="toggleFDD('cliente')">
+          Cliente <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="cliente-menu">
+          <div class="fdm-item" onclick="clearFDD('cliente')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Alfa LTDA',this)">Alfa LTDA</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Beta LTDA',this)">Beta LTDA</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Gama ME',this)">Gama ME</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Delta S/A',this)">Delta S/A</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Épsilon Ltda',this)">Épsilon Ltda</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Kappa Serv. ME',this)">Kappa Serv. ME</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Lambda Com. LTDA',this)">Lambda Com. LTDA</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Sigma Ltda',this)">Sigma Ltda</div>
+          <div class="fdm-item" onclick="selectFDD('cliente','Ômega S/A',this)">Ômega S/A</div>
+        </div>
+      </div>
+      <div class="filter-dropdown" id="familia-dropdown">
+        <div class="filter-chip" id="familia-chip" onclick="toggleFDD('familia')">
+          Família <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="familia-menu">
+          <div class="fdm-item" onclick="clearFDD('familia')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('familia','Família 1',this)">Família 1</div>
+          <div class="fdm-item" onclick="selectFDD('familia','Família 2',this)">Família 2</div>
+          <div class="fdm-item" onclick="selectFDD('familia','Família 3',this)">Família 3</div>
+        </div>
+      </div>
+      <div class="filter-dropdown" id="depto-dropdown">
+        <div class="filter-chip" id="depto-chip" onclick="toggleFDD('depto')">
+          Departamento <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="depto-menu">
+          <div class="fdm-item" onclick="clearFDD('depto')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('depto','DP',this)">DP</div>
+          <div class="fdm-item" onclick="selectFDD('depto','Fiscal',this)">Fiscal</div>
+          <div class="fdm-item" onclick="selectFDD('depto','Contábil',this)">Contábil</div>
+        </div>
+      </div>
+      <div class="filter-dropdown" id="tipo-dropdown">
+        <div class="filter-chip" id="tipo-chip" onclick="toggleFDD('tipo')">
+          Tipo <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="tipo-menu">
+          <div class="fdm-item" onclick="clearFDD('tipo')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Folha sem Apontamentos',this)">Folha sem Apontamentos</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Folha Pró-Labore',this)">Folha Pró-Labore</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','DCTFWeb',this)">DCTFWeb</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Apuração DAS',this)">Apuração DAS</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','REINF',this)">REINF</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Apuração ISS',this)">Apuração ISS</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Cálculo DIFAL',this)">Cálculo DIFAL</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Admissão',this)">Admissão</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Rescisão',this)">Rescisão</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Férias',this)">Férias</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Conciliação Extratos',this)">Conciliação Extratos</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Conciliação DP',this)">Conciliação DP</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Conciliação Fiscal',this)">Conciliação Fiscal</div>
+          <div class="fdm-item" onclick="selectFDD('tipo','Conferência Balancete Mensal',this)">Conferência Balancete Mensal</div>
+        </div>
+      </div>
+      <div class="filter-dropdown" id="operador-dropdown">
+        <div class="filter-chip" id="operador-chip" onclick="toggleFDD('operador')">
+          Operador <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="operador-menu">
+          <div class="fdm-item" onclick="clearFDD('operador')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('operador','Jeniffer Ferreira',this)">Jeniffer Ferreira</div>
+          <div class="fdm-item" onclick="selectFDD('operador','Rodrigo Tavares',this)">Rodrigo Tavares</div>
+          <div class="fdm-item" onclick="selectFDD('operador','Thaís Almeida',this)">Thaís Almeida</div>
+        </div>
+      </div>
+      <div class="filter-dropdown" id="gerente-dropdown">
+        <div class="filter-chip" id="gerente-chip" onclick="toggleFDD('gerente')">
+          Gerente <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="gerente-menu">
+          <div class="fdm-item" onclick="clearFDD('gerente')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('gerente','Camila Duarte',this)">Camila Duarte</div>
+          <div class="fdm-item" onclick="selectFDD('gerente','Marcos Vieira',this)">Marcos Vieira</div>
+          <div class="fdm-item" onclick="selectFDD('gerente','Patrícia Nogueira',this)">Patrícia Nogueira</div>
+        </div>
+      </div>
+      <div class="filter-dropdown" id="origem-dropdown">
+        <div class="filter-chip" id="origem-chip" onclick="toggleFDD('origem')">
+          Origem <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="origem-menu">
+          <div class="fdm-item" onclick="clearFDD('origem')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('origem','BHub',this)">BHub</div>
+          <div class="fdm-item" onclick="selectFDD('origem','ContJet',this)">ContJet</div>
+        </div>
+      </div>
+      <div class="filter-dropdown" id="estado-dropdown">
+        <div class="filter-chip" id="estado-chip" onclick="toggleFDD('estado')">
+          Estado <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu" id="estado-menu">
+          <div class="fdm-item" onclick="clearFDD('estado')">Todos</div>
+          <div class="fdm-item" onclick="selectFDD('estado','Aguard. Operador',this)">Aguard. Operador</div>
+          <div class="fdm-item" onclick="selectFDD('estado','Em execução',this)">Em execução</div>
+          <div class="fdm-item" onclick="selectFDD('estado','Em espera',this)">Em espera</div>
+          <div class="fdm-item" onclick="selectFDD('estado','Concluída',this)">Concluída</div>
+          <div class="fdm-item" onclick="selectFDD('estado','Aguard. Dependência',this)">Aguard. Dependência</div>
+        </div>
+      </div>
+      <div class="filter-chip active-hitl">⚠ HITL (6) ×</div>
+    </div>
+
     <div class="kpi-strip">
       <div class="kpi-cell has-period"><div class="kpi-period-label"><span class="kpi-period-text">NO PERÍODO</span></div><div class="kpi-label-top">Chegaram</div><div class="kpi-sub">Hoje</div><div class="kpi-val">27</div></div>
       <div class="kpi-cell"><div class="kpi-label-top">Concluídas</div><div class="kpi-sub">Hoje</div><div class="kpi-val red">9</div></div>
@@ -600,32 +748,19 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="kpi-cell"><div class="kpi-label-top">Aguard. dependência</div><div class="kpi-sub">Bloqueadas</div><div class="kpi-val purple">7</div></div>
     </div>
 
-    <div class="search-bar">
-      <div class="search-input-row"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;color:#9ca3af;flex-shrink:0;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Buscar cliente, tipo, operador..."/></div>
-      <div class="filters">
-        <span class="filter-label">Filtrar</span>
-        <!-- Motor filter with dropdown -->
-        <div class="filter-dropdown" id="motor-dropdown">
-          <div class="filter-chip" id="motor-chip" onclick="toggleMotorDropdown()">
-            Motor <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          <div class="filter-dropdown-menu" id="motor-menu">
-            <div class="fdm-item" onclick="selectMotor('all')">Todos</div>
-            <div class="fdm-item" onclick="selectMotor('dp')"><div class="fdm-dot dp"></div>DP</div>
-            <div class="fdm-item" onclick="selectMotor('fiscal')"><div class="fdm-dot fiscal"></div>Fiscal</div>
-            <div class="fdm-item" onclick="selectMotor('ctb')"><div class="fdm-dot ctb"></div>Contábil</div>
-          </div>
-        </div>
-        <div class="filter-chip">Tipo <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="filter-chip">Operador <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="filter-chip">Estado <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="filter-chip active-hitl">⚠ HITL (6) ×</div>
+    <!-- ═══ AGRUPAR POR (box) ═══ -->
+    <div class="groupby-box">
+      <span class="groupby-label">Agrupar por</span>
+      <div class="groupby-pills">
+        <div class="gb-pill active" onclick="setGroupBy('operador',this)">Operador</div>
+        <div class="gb-pill" onclick="setGroupBy('cliente',this)">Cliente</div>
+        <div class="gb-pill" onclick="setGroupBy('tipo',this)">Tipo</div>
       </div>
     </div>
 
+    <div id="gbview-operador">
     <div class="section-header">
       <div><div class="section-title">Operação (27)</div><div class="section-sub">Agrupe e expanda pra ver as tarefas · hoje pros volumes</div></div>
-      <div class="group-by">Agrupar por <strong class="active">Operador</strong> <strong>Cliente</strong> <strong>Tipo</strong></div>
     </div>
 
     <!-- Sem dono -->
@@ -649,7 +784,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div id="rows-jen">
         <table class="task-table">
           <thead><tr>
-            <th class="td-sol">Solicitação</th>
+            <th class="td-sol">Cliente</th>
             <th class="td-tipo">Tipo</th>
             <th class="td-dept">Depto</th>
             <th class="td-comp">Competência</th>
@@ -659,8 +794,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           </tr></thead>
           <tbody>
             <tr class="task-row-tr" id="row-folha-sa" onclick="openPanel('folha-sa')">
-              <td><div class="task-cell"><div class="task-bar b-hitl"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Folha sem Apontamentos</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-hitl"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Folha sem Apontamentos <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge dp">DP</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-hitl">⚠ Aguard. Operador</span></div></td>
@@ -668,8 +803,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-folha-pl" onclick="openPanel('folha-pl')">
-              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Folha Pró-Labore</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Folha Pró-Labore <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge dp">DP</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
@@ -677,8 +812,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-dctf" onclick="openPanel('dctf')">
-              <td><div class="task-cell"><div class="task-bar b-dep"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">DCTFWeb</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-dep"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">DCTFWeb <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge dp">DP</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-dep">⊡ Aguard. Dependência</span></div></td>
@@ -686,15 +821,16 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-adm" onclick="openPanel('adm')">
-              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div><div class="task-info"><div class="task-name">Épsilon Ltda</div><div class="task-cnpj">27.918.330/0001-44</div></div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div><div class="task-info"><div class="task-name">Épsilon Ltda</div><div class="task-cnpj">27.918.330/0001-44 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
               <td><div class="cell-pad"><div class="task-tipo-col">Admissão <span style="font-size:9.5px;color:#9ca3af;background:#f3f4f6;padding:1px 4px;border-radius:3px;font-weight:500;margin-left:2px;">via Hub</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge dp">DP</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
               <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">14/06 · 11:32</div></div></td>
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
             <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div><div class="task-info"><div class="task-name">Sigma Ltda</div><div class="task-cnpj">71.234.890/0001-33</div></div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div><div class="task-info"><div class="task-name">Sigma Ltda</div><div class="task-cnpj">71.234.890/0001-33 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
               <td><div class="cell-pad"><div class="task-tipo-col">Rescisão <span style="font-size:9.5px;color:#9ca3af;background:#f3f4f6;padding:1px 4px;border-radius:3px;font-weight:500;margin-left:2px;">via Hub</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge dp">DP</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
@@ -703,7 +839,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Ômega S/A</div><div class="task-cnpj">82.345.901/0001-44</div></div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Ômega S/A</div><div class="task-cnpj">82.345.901/0001-44 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
               <td><div class="cell-pad"><div class="task-tipo-col">Férias <span style="font-size:9.5px;color:#9ca3af;background:#f3f4f6;padding:1px 4px;border-radius:3px;font-weight:500;margin-left:2px;">via Hub</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge dp">DP</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
@@ -721,13 +857,13 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="op-header" onclick="toggleGroup('rod')">
         <div class="op-avatar" style="background:#2E7D4F;">RT</div>
         <div style="flex:1;"><div class="op-name">Rodrigo Tavares</div><div class="op-name-sub"><span class="dept-badge fiscal">Fiscal</span></div></div>
-        <div class="op-pills"><span class="pill hitl-p">1 Aguard. Op.</span><span class="pill execucao">1 em execução</span><span class="pill espera">1 em espera</span><span class="pill sla">1 SLA</span></div>
+        <div class="op-pills"><span class="pill hitl-p">1 Aguard. Op.</span><span class="pill execucao">4 em execução</span><span class="pill sla">1 SLA</span></div>
         <svg class="op-chevron open" id="chev-rod" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div id="rows-rod">
         <table class="task-table">
           <thead><tr>
-            <th class="td-sol">Solicitação</th>
+            <th class="td-sol">Cliente</th>
             <th class="td-tipo">Tipo</th>
             <th class="td-dept">Depto</th>
             <th class="td-comp">Competência</th>
@@ -737,8 +873,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           </tr></thead>
           <tbody>
             <tr class="task-row-tr" id="row-das" onclick="openPanel('das')">
-              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Apuração DAS</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Apuração DAS <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge fiscal">Fiscal</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
@@ -746,16 +882,26 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-reinf" onclick="openPanel('reinf')">
-              <td><div class="task-cell"><div class="task-bar b-wait"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div class="task-info"><div class="task-name">Delta S/A</div><div class="task-cnpj">55.444.333/0001-22</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">REINF</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div><div class="task-info"><div class="task-name">Delta S/A</div><div class="task-cnpj">55.444.333/0001-22 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">REINF <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge fiscal">Fiscal</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-wait">Em espera</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
               <td><div class="td-prazo-wrap"><div class="task-prazo">20/06/2026 · 12:00</div></div></td>
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
             <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-hitl"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Kappa Serv. ME</div><div class="task-cnpj">93.456.012/0001-55</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Apuração ISS</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg></div><div class="task-info"><div class="task-name">Sigma Ltda</div><div class="task-cnpj">71.234.890/0001-33 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">DCTFWeb <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge fiscal">Fiscal</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-prazo">20/06/2026 · 23:59</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-hitl"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Kappa Serv. ME</div><div class="task-cnpj">93.456.012/0001-55 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Apuração ISS <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge fiscal">Fiscal</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-hitl">⚠ Aguard. Operador</span></div></td>
@@ -763,8 +909,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Lambda Com. LTDA</div><div class="task-cnpj">04.567.123/0001-66</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Cálculo DIFAL</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Lambda Com. LTDA</div><div class="task-cnpj">04.567.123/0001-66 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Cálculo DIFAL <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge fiscal">Fiscal</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
@@ -782,13 +928,13 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="op-header" onclick="toggleGroup('tha')">
         <div class="op-avatar" style="background:#7c3aed;">TA</div>
         <div style="flex:1;"><div class="op-name">Thaís Almeida</div><div class="op-name-sub"><span class="dept-badge ctb">Contábil</span></div></div>
-        <div class="op-pills"><span class="pill hitl-p">1 Aguard. Op.</span><span class="pill execucao">2 em execução</span><span class="pill concluida-p">1 concluída</span></div>
+        <div class="op-pills"><span class="pill hitl-p">1 Aguard. Op.</span><span class="pill execucao">5 em execução</span><span class="pill espera">3 em espera</span><span class="pill concluida-p">7 concluída</span></div>
         <svg class="op-chevron open" id="chev-tha" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div id="rows-tha">
         <table class="task-table">
           <thead><tr>
-            <th class="td-sol">Solicitação</th>
+            <th class="td-sol">Cliente</th>
             <th class="td-tipo">Tipo</th>
             <th class="td-dept">Depto</th>
             <th class="td-comp">Competência</th>
@@ -798,8 +944,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           </tr></thead>
           <tbody>
             <tr class="task-row-tr" id="row-concfin" onclick="openPanel('concfin')">
-              <td><div class="task-cell"><div class="task-bar b-hitl"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Financeira</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-hitl"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Extratos <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-hitl">⚠ Aguard. Operador</span></div></td>
@@ -807,8 +953,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-concdp" onclick="openPanel('concdp')">
-              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação DP</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação DP <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
@@ -816,8 +962,8 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-concfis" onclick="openPanel('concfis')">
-              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Fiscal</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Fiscal <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
@@ -825,16 +971,605 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-balancete" onclick="openPanel('balancete')">
-              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h6v6m-9 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Épsilon Ltda</div><div class="task-cnpj">27.918.330/0001-44</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conferência Balancete Mensal</div></div></td>
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h6v6m-9 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Épsilon Ltda</div><div class="task-cnpj">27.918.330/0001-44 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conferência Balancete Mensal <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
               <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">13/06 · 16:40</div></div></td>
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação DP <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-prazo">18/06/2026 · 18:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Fiscal <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">12/06 · 10:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h6v6m-9 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Alfa LTDA</div><div class="task-cnpj">12.345.678/0001-90 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conferência Balancete Mensal <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-prazo">20/06/2026 · 18:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Extratos <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-prazo">17/06/2026 · 18:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Fiscal <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">14/06 · 09:30</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h6v6m-9 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conferência Balancete Mensal <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-prazo">21/06/2026 · 18:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Extratos <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">15/06 · 11:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação DP <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-prazo">19/06/2026 · 18:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h6v6m-9 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conferência Balancete Mensal <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-prazo">22/06/2026 · 18:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Épsilon Ltda</div><div class="task-cnpj">27.918.330/0001-44 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Extratos <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">13/06 · 15:00</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Épsilon Ltda</div><div class="task-cnpj">27.918.330/0001-44 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação DP <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">13/06 · 15:20</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
+            <tr class="task-row-tr">
+              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Épsilon Ltda</div><div class="task-cnpj">27.918.330/0001-44 <span class="task-origem">· Origem: BHub</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
+              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Fiscal <span class="tag-autopilot">via Autopilot</span></div></div></td>
+              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
+              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
+              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">13/06 · 15:40</div></div></td>
+              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
+            </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    </div><!-- /gbview-operador -->
+
+    <div id="gbview-cliente" style="display:none;">
+      <div class="section-header">
+        <div><div class="section-title">Fechamento por cliente</div><div class="section-sub">Uma barra de progresso por motor · passe o mouse para ver o detalhe das tarefas · clique para abrir</div></div>
+      </div>
+      <div id="fech-app">
+    <!-- ALFA -->
+    <div class="cli2-card">
+      <div class="cli2-header" onclick="openClient('alfa')">
+        <div class="cli2-av" style="background:#ef4444;">AL</div>
+        <div style="min-width:140px;"><div class="cli2-name">Alfa LTDA</div><div class="cli2-cnpj">12.345.678/0001-90 · BHub</div><div style="font-size:9px;color:#c7cbd1;">ERP: Autopilot</div></div>
+        <span class="cli2-status hitl">⚠ Atenção</span>
+        <div class="cli2-motors">
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag dp">DP</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar">
+                <div class="cli2-mseg hitl" style="width:3%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">⚠ Aguard. operador (1)</span><div class="cli2-mseg-tip-list">Folha sem Apontamentos</div></div></div>
+                <div class="cli2-mseg dep" style="width:3%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">⊡ Aguard. dependência (1)</span><div class="cli2-mseg-tip-list">DCTFWeb</div></div></div>
+                <div class="cli2-mseg ok" style="width:80%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (27)</span><div class="cli2-mseg-tip-list">14 Rescisões · 8 Admissões · 5 Férias</div></div></div>
+                <div class="cli2-mseg run" style="width:14%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (4)</span><div class="cli2-mseg-tip-list">2 Admissões · 1 Rescisão · 1 outras</div></div></div>
+              </div>
+              <div class="cli2-mlegend"><span class="ok-t">27 ok</span><span class="run-t">4 exec.</span><span class="hitl-t">1 HITL</span><span class="dep-t">1 bloqueada</span></div>
+            </div>
+            <div class="cli2-pct-badge run">93%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag fiscal">Fiscal</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar">
+                <div class="cli2-mseg ok" style="width:75%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (3)</span><div class="cli2-mseg-tip-list">Apuração DAS · Apuração ISS · Cálculo DIFAL</div></div></div>
+                <div class="cli2-mseg run" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">REINF</div></div></div>
+              </div>
+              <div class="cli2-mlegend"><span class="ok-t">3 ok</span><span class="run-t">1 exec.</span></div>
+            </div>
+            <div class="cli2-pct-badge run">75%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag ctb">Contábil</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar">
+                <div class="cli2-mseg hitl" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">⚠ Aguard. operador (1)</span><div class="cli2-mseg-tip-list">Conciliação Extratos</div></div></div>
+                <div class="cli2-mseg run" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Conciliação DP</div></div></div>
+                <div class="cli2-mseg ok" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (1)</span><div class="cli2-mseg-tip-list">Conciliação Fiscal</div></div></div>
+                <div class="cli2-mseg run" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Conferência Balancete Mensal</div></div></div>
+              </div>
+              <div class="cli2-mlegend"><span class="ok-t">1 ok</span><span class="run-t">2 exec.</span><span class="hitl-t">1 HITL</span></div>
+            </div>
+            <div class="cli2-pct-badge hitl">25%</div>
+          </div>
+        </div>
+        <div class="cli2-totals"><div class="cli2-total-item" style="font-size:13px;"><strong style="font-size:16px;color:#d97706;">84%</strong><div style="font-size:10px;color:#9ca3af;">31/37 concl.</div></div></div>
+        <svg class="cli2-chevron" id="dgc2-chev-alfa" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();dgC2Toggle('alfa')"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cli2-body" id="dgc2-body-alfa" style="display:none;">
+        <div class="cli2-body-row"><div class="cli2-body-dot hitl"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Folha sem Apontamentos — anomalia detectada</div><div class="cli2-body-val">0/1</div><div class="cli2-link" onclick="event.stopPropagation();">Ver pendência →</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot dep"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">DCTFWeb — aguardando Folha</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Admissões (via Hub)</div><div class="cli2-body-val">8/10</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Rescisões (via Hub)</div><div class="cli2-body-val">14/15</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Férias (via Hub)</div><div class="cli2-body-val">5/5</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração DAS</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">REINF</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração ISS</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Cálculo DIFAL</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot hitl"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Extratos — divergência detectada</div><div class="cli2-body-val">0/1</div><div class="cli2-link" onclick="event.stopPropagation();">Ver pendência →</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação DP</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Fiscal</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conferência Balancete Mensal</div><div class="cli2-body-val">0/1</div></div>
+      </div>
+    </div>
+
+    <!-- BETA -->
+    <div class="cli2-card">
+      <div class="cli2-header" onclick="openClient('beta')">
+        <div class="cli2-av" style="background:#3b82f6;">BT</div>
+        <div style="min-width:140px;"><div class="cli2-name">Beta LTDA</div><div class="cli2-cnpj">98.765.432/0001-10 · ContJet</div><div style="font-size:9px;color:#c7cbd1;">ERP: Autopilot</div></div>
+        <span class="cli2-status run">▶ Em andamento</span>
+        <div class="cli2-motors">
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag dp">DP</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Folha Pró-Labore — etapa 5 de 6</div></div></div></div>
+              <div class="cli2-mlegend"><span class="run-t">1 em execução (etapa 5/6)</span></div>
+            </div>
+            <div class="cli2-pct-badge run">83%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag fiscal">Fiscal</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (2)</span><div class="cli2-mseg-tip-list">Apuração DAS · Cálculo DIFAL</div></div></div></div>
+              <div class="cli2-mlegend"><span class="run-t">2 em execução</span></div>
+            </div>
+            <div class="cli2-pct-badge run">35%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag ctb">Contábil</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar">
+                <div class="cli2-mseg ok" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (1)</span><div class="cli2-mseg-tip-list">Conciliação Fiscal</div></div></div>
+                <div class="cli2-mseg run" style="width:50%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (2)</span><div class="cli2-mseg-tip-list">Conciliação Extratos · Conciliação DP</div></div></div>
+                <div class="cli2-mseg run" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Conferência Balancete Mensal</div></div></div>
+              </div>
+              <div class="cli2-mlegend"><span class="ok-t">1 ok</span><span class="run-t">3 exec.</span></div>
+            </div>
+            <div class="cli2-pct-badge run">25%</div>
+          </div>
+        </div>
+        <div class="cli2-totals"><div class="cli2-total-item" style="font-size:13px;"><strong style="font-size:16px;color:#3b82f6;">46%</strong><div style="font-size:10px;color:#9ca3af;">em progresso</div></div></div>
+        <svg class="cli2-chevron" id="dgc2-chev-beta" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();dgC2Toggle('beta')"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cli2-body" id="dgc2-body-beta" style="display:none;">
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Folha Pró-Labore — etapa 5 de 6</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração DAS</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Cálculo DIFAL</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Extratos</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação DP</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Fiscal</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conferência Balancete Mensal</div><div class="cli2-body-val">0/1</div></div>
+      </div>
+    </div>
+
+    <!-- GAMA -->
+    <div class="cli2-card">
+      <div class="cli2-header" onclick="openClient('gama')">
+        <div class="cli2-av" style="background:#2E7D4F;">GM</div>
+        <div style="min-width:140px;"><div class="cli2-name">Gama ME</div><div class="cli2-cnpj">33.110.928/0001-71 · ContJet</div><div style="font-size:9px;color:#c7cbd1;">ERP: Autopilot</div></div>
+        <span class="cli2-status run">▶ Em andamento</span>
+        <div class="cli2-motors">
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag na">DP —</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg wait" style="width:100%;opacity:0.25;"></div></div>
+              <div class="cli2-mlegend"><span class="wait-t">sem tarefas no ciclo</span></div>
+            </div>
+            <div class="cli2-pct-badge wait">—</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag fiscal">Fiscal</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar">
+                <div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (2)</span><div class="cli2-mseg-tip-list">Apuração DAS — etapa 4 de 6 · REINF</div></div></div>
+              </div>
+              <div class="cli2-mlegend"><span class="run-t">2 em execução</span></div>
+            </div>
+            <div class="cli2-pct-badge run">35%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag ctb">Contábil</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar">
+                <div class="cli2-mseg ok" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (1)</span><div class="cli2-mseg-tip-list">Conciliação Extratos</div></div></div>
+                <div class="cli2-mseg run" style="width:50%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (2)</span><div class="cli2-mseg-tip-list">Conciliação DP · Conciliação Fiscal</div></div></div>
+                <div class="cli2-mseg run" style="width:25%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Conferência Balancete Mensal</div></div></div>
+              </div>
+              <div class="cli2-mlegend"><span class="ok-t">1 ok</span><span class="run-t">3 exec.</span></div>
+            </div>
+            <div class="cli2-pct-badge run">25%</div>
+          </div>
+        </div>
+        <div class="cli2-totals"><div class="cli2-total-item" style="font-size:13px;"><strong style="font-size:16px;color:#3b82f6;">34%</strong><div style="font-size:10px;color:#9ca3af;">em progresso</div></div></div>
+        <svg class="cli2-chevron" id="dgc2-chev-gama" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();dgC2Toggle('gama')"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cli2-body" id="dgc2-body-gama" style="display:none;">
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração DAS — etapa 4 de 6</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">REINF</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Extratos</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação DP</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Fiscal</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conferência Balancete Mensal</div><div class="cli2-body-val">0/1</div></div>
+      </div>
+    </div>
+
+    <!-- DELTA -->
+    <div class="cli2-card">
+      <div class="cli2-header" onclick="openClient('delta')">
+        <div class="cli2-av" style="background:#f59e0b;">DT</div>
+        <div style="min-width:140px;"><div class="cli2-name">Delta S/A</div><div class="cli2-cnpj">55.444.333/0001-22 · BHub</div><div style="font-size:9px;color:#c7cbd1;">ERP: Autopilot</div></div>
+        <span class="cli2-status run">▶ Em andamento</span>
+        <div class="cli2-motors">
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag na">DP —</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg wait" style="width:100%;opacity:0.25;"></div></div>
+              <div class="cli2-mlegend"><span class="wait-t">sem tarefas no ciclo</span></div>
+            </div>
+            <div class="cli2-pct-badge wait">—</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag fiscal">Fiscal</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">REINF</div></div></div></div>
+              <div class="cli2-mlegend"><span class="run-t">1 em execução</span></div>
+            </div>
+            <div class="cli2-pct-badge run">0%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag na">Contábil —</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg wait" style="width:100%;opacity:0.25;"></div></div>
+              <div class="cli2-mlegend"><span class="wait-t">sem tarefas no ciclo</span></div>
+            </div>
+            <div class="cli2-pct-badge wait">—</div>
+          </div>
+        </div>
+        <div class="cli2-totals"><div class="cli2-total-item" style="font-size:13px;"><strong style="font-size:16px;color:#9ca3af;">0%</strong><div style="font-size:10px;color:#9ca3af;">não iniciado</div></div></div>
+        <svg class="cli2-chevron" id="dgc2-chev-delta" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();dgC2Toggle('delta')"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cli2-body" id="dgc2-body-delta" style="display:none;">
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">REINF</div><div class="cli2-body-val">0/1</div></div>
+      </div>
+    </div>
+
+    <!-- EPSILON -->
+    <div class="cli2-card">
+      <div class="cli2-header" onclick="openClient('epsilon')">
+        <div class="cli2-av" style="background:#7c3aed;">EP</div>
+        <div style="min-width:140px;"><div class="cli2-name">Épsilon Ltda</div><div class="cli2-cnpj">27.918.330/0001-44 · BHub</div><div style="font-size:9px;color:#c7cbd1;">ERP: Autopilot</div></div>
+        <span class="cli2-status ok">✓ Concluído</span>
+        <div class="cli2-motors">
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag dp">DP</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg ok" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (2)</span><div class="cli2-mseg-tip-list">Folha sem Apontamentos · Admissão</div></div></div></div>
+              <div class="cli2-mlegend"><span class="ok-t">2 ok — todas concluídas</span></div>
+            </div>
+            <div class="cli2-pct-badge ok">100%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag fiscal">Fiscal</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg ok" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (2)</span><div class="cli2-mseg-tip-list">Apuração DAS · Apuração ISS</div></div></div></div>
+              <div class="cli2-mlegend"><span class="ok-t">2 ok — todas concluídas</span></div>
+            </div>
+            <div class="cli2-pct-badge ok">100%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag ctb">Contábil</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg ok" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">✓ Concluídas (4)</span><div class="cli2-mseg-tip-list">Conciliação Extratos · Conciliação DP · Conciliação Fiscal · Conferência Balancete Mensal</div></div></div></div>
+              <div class="cli2-mlegend"><span class="ok-t">4 ok — todas concluídas</span></div>
+            </div>
+            <div class="cli2-pct-badge ok">100%</div>
+          </div>
+        </div>
+        <div class="cli2-totals"><div class="cli2-total-item" style="font-size:13px;"><strong style="font-size:16px;color:#10b981;">100%</strong><div style="font-size:10px;color:#9ca3af;">8/8 concl.</div></div></div>
+        <svg class="cli2-chevron" id="dgc2-chev-epsilon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();dgC2Toggle('epsilon')"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cli2-body" id="dgc2-body-epsilon" style="display:none;">
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Folha sem Apontamentos</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Admissões (via Hub)</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração DAS</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração ISS</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Extratos</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação DP</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Fiscal</div><div class="cli2-body-val">1/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conferência Balancete Mensal</div><div class="cli2-body-val">1/1</div></div>
+      </div>
+    </div>
+
+    <!-- KAPPA -->
+    <div class="cli2-card">
+      <div class="cli2-header" onclick="openClient('kappa')">
+        <div class="cli2-av" style="background:#0284c7;">KP</div>
+        <div style="min-width:140px;"><div class="cli2-name">Kappa Serv. ME</div><div class="cli2-cnpj">93.456.012/0001-55 · ContJet</div><div style="font-size:9px;color:#c7cbd1;">ERP: Autopilot</div></div>
+        <span class="cli2-status hitl">⚠ Atenção</span>
+        <div class="cli2-motors">
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag na">DP —</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg wait" style="width:100%;opacity:0.25;"></div></div>
+              <div class="cli2-mlegend"><span class="wait-t">sem tarefas no ciclo</span></div>
+            </div>
+            <div class="cli2-pct-badge wait">—</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag fiscal">Fiscal</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg hitl" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">⚠ Aguard. operador (1)</span><div class="cli2-mseg-tip-list">Apuração ISS</div></div></div></div>
+              <div class="cli2-mlegend"><span class="hitl-t">⚠ 1 aguardando operador</span></div>
+            </div>
+            <div class="cli2-pct-badge hitl">0%</div>
+          </div>
+          <div class="cli2-motor">
+            <div class="cli2-motor-tag na">Contábil —</div>
+            <div class="cli2-motor-bar-col">
+              <div class="cli2-mbar"><div class="cli2-mseg wait" style="width:100%;opacity:0.25;"></div></div>
+              <div class="cli2-mlegend"><span class="wait-t">sem tarefas no ciclo</span></div>
+            </div>
+            <div class="cli2-pct-badge wait">—</div>
+          </div>
+        </div>
+        <div class="cli2-totals"><div class="cli2-total-item" style="font-size:13px;"><strong style="font-size:16px;color:#d97706;">0%</strong><div style="font-size:10px;color:#9ca3af;">bloqueado</div></div></div>
+        <svg class="cli2-chevron" id="dgc2-chev-kappa" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();dgC2Toggle('kappa')"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="cli2-body" id="dgc2-body-kappa" style="display:none;">
+        <div class="cli2-body-row"><div class="cli2-body-dot hitl"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração ISS — aguardando operador</div><div class="cli2-body-val">0/1</div><div class="cli2-link">Ver pendência →</div></div>
+      </div>
+    </div>
+
+
+      </div>
+    </div>
+
+    <div id="gbview-tipo" style="display:none;">
+      <div class="section-header">
+        <div><div class="section-title">Progresso por tipo de tarefa</div><div class="section-sub">Visão agregada de todos os clientes · DP, Fiscal e Contábil · Jun/2026</div></div>
+      </div>
+      <div id="fech-app">
+        <div class="progtype-card">
+          <div class="progtype-toolbar">
+            <div style="flex:1;font-size:12.5px;color:#9ca3af;">Progresso agregado de todos os clientes no ciclo</div>
+            <div class="progtype-dept-toggle">
+              <div class="pt-dept-btn active">Todos</div>
+              <div class="pt-dept-btn">DP</div>
+              <div class="pt-dept-btn">Fiscal</div>
+              <div class="pt-dept-btn">Contábil</div>
+            </div>
+          </div>
+          <div class="progtype-body">
+            <div>
+
+          <div class="progtype-group-hd dp"><div class="dot"></div>Motor DP <span class="count">5 tipos de tarefa</span></div>
+
+          <div class="pt-row">
+            <div class="pt-name">Folha sem Apontamentos <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:60%;"></div><div class="pt-seg run" style="width:35%;"></div><div class="pt-seg hitl" style="width:5%;"></div></div>
+              <div class="pt-hover-tip">38 ok · 22 em exec. · 2 HITL</div>
+              <div class="pt-bar-detail"><span class="ok-t">38 ok</span><span class="run-t">22 exec.</span><span class="hitl-t">2 HITL</span></div>
+            </div>
+            <div class="pt-status-pill mixed">⚠ Atenção em 2</div>
+            <div><div class="pt-count"><strong>38</strong>/62</div><div class="pt-pct">61%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Folha Pró-Labore <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:50%;"></div><div class="pt-seg run" style="width:43%;"></div><div class="pt-seg hitl" style="width:7%;"></div></div>
+              <div class="pt-hover-tip">14 ok · 12 em exec. · 2 HITL</div>
+              <div class="pt-bar-detail"><span class="ok-t">14 ok</span><span class="run-t">12 exec.</span><span class="hitl-t">2 HITL</span></div>
+            </div>
+            <div class="pt-status-pill mixed">⚠ Atenção em 2</div>
+            <div><div class="pt-count"><strong>14</strong>/28</div><div class="pt-pct">50%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">DCTFWeb <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:41%;"></div><div class="pt-seg run" style="width:18%;"></div><div class="pt-seg dep" style="width:41%;"></div></div>
+              <div class="pt-hover-tip">9 ok · 4 em exec. · 9 aguard. dependência</div>
+              <div class="pt-bar-detail"><span class="ok-t">9 ok</span><span class="run-t">4 exec.</span><span style="color:#7c3aed;font-weight:600;">9 aguard. dep.</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>9</strong>/22</div><div class="pt-pct">41%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Admissões <span class="tag-hub" style="margin-left:4px;">via Hub</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:85%;"></div><div class="pt-seg run" style="width:15%;"></div></div>
+              <div class="pt-hover-tip">11 ok · 2 em exec.</div>
+              <div class="pt-bar-detail"><span class="ok-t">11 ok</span><span class="run-t">2 exec.</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>11</strong>/13</div><div class="pt-pct">85%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Rescisões <span class="tag-hub" style="margin-left:4px;">via Hub</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:50%;"></div><div class="pt-seg run" style="width:30%;"></div><div class="pt-seg wait" style="width:20%;"></div></div>
+              <div class="pt-hover-tip">5 ok · 3 em exec. · 2 espera</div>
+              <div class="pt-bar-detail"><span class="ok-t">5 ok</span><span class="run-t">3 exec.</span><span class="wait-t">2 espera</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>5</strong>/10</div><div class="pt-pct">50%</div></div>
+          </div>
+
+          <div class="progtype-group-hd fiscal"><div class="dot"></div>Motor Fiscal <span class="count">5 tipos de tarefa</span></div>
+
+          <div class="pt-row">
+            <div class="pt-name">Apuração DAS <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:70%;"></div><div class="pt-seg run" style="width:27%;"></div><div class="pt-seg hitl" style="width:3%;"></div></div>
+              <div class="pt-hover-tip">21 ok · 8 em exec. · 1 HITL</div>
+              <div class="pt-bar-detail"><span class="ok-t">21 ok</span><span class="run-t">8 exec.</span><span class="hitl-t">1 HITL</span></div>
+            </div>
+            <div class="pt-status-pill mixed">⚠ Atenção em 1</div>
+            <div><div class="pt-count"><strong>21</strong>/30</div><div class="pt-pct">70%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">REINF <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:35%;"></div><div class="pt-seg run" style="width:65%;"></div></div>
+              <div class="pt-hover-tip">7 ok · 13 em exec.</div>
+              <div class="pt-bar-detail"><span class="ok-t">7 ok</span><span class="run-t">13 exec.</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>7</strong>/20</div><div class="pt-pct">35%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Apuração ISS <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:40%;"></div><div class="pt-seg run" style="width:53%;"></div><div class="pt-seg hitl" style="width:7%;"></div></div>
+              <div class="pt-hover-tip">6 ok · 8 em exec. · 1 HITL</div>
+              <div class="pt-bar-detail"><span class="ok-t">6 ok</span><span class="run-t">8 exec.</span><span class="hitl-t">1 HITL</span></div>
+            </div>
+            <div class="pt-status-pill mixed">⚠ Atenção em 1</div>
+            <div><div class="pt-count"><strong>6</strong>/15</div><div class="pt-pct">40%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Cálculo DIFAL <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:50%;"></div><div class="pt-seg run" style="width:50%;"></div></div>
+              <div class="pt-hover-tip">4 ok · 4 em exec.</div>
+              <div class="pt-bar-detail"><span class="ok-t">4 ok</span><span class="run-t">4 exec.</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>4</strong>/8</div><div class="pt-pct">50%</div></div>
+          </div>
+
+          <div class="progtype-group-hd ctb"><div class="dot"></div>Motor Contábil <span class="count">4 tipos de tarefa</span></div>
+
+          <div class="pt-row">
+            <div class="pt-name">Conciliação Extratos <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:55%;"></div><div class="pt-seg run" style="width:37%;"></div><div class="pt-seg hitl" style="width:8%;"></div></div>
+              <div class="pt-hover-tip">11 ok · 7 em exec. · 2 HITL</div>
+              <div class="pt-bar-detail"><span class="ok-t">11 ok</span><span class="run-t">7 exec.</span><span class="hitl-t">2 HITL</span></div>
+            </div>
+            <div class="pt-status-pill mixed">⚠ Atenção em 2</div>
+            <div><div class="pt-count"><strong>11</strong>/20</div><div class="pt-pct">55%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Conciliação DP <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:60%;"></div><div class="pt-seg run" style="width:40%;"></div></div>
+              <div class="pt-hover-tip">12 ok · 8 em exec.</div>
+              <div class="pt-bar-detail"><span class="ok-t">12 ok</span><span class="run-t">8 exec.</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>12</strong>/20</div><div class="pt-pct">60%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Conciliação Fiscal <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:65%;"></div><div class="pt-seg run" style="width:35%;"></div></div>
+              <div class="pt-hover-tip">13 ok · 7 em exec.</div>
+              <div class="pt-bar-detail"><span class="ok-t">13 ok</span><span class="run-t">7 exec.</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>13</strong>/20</div><div class="pt-pct">65%</div></div>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-name">Conferência Balancete Mensal <span class="tag-autopilot" style="margin-left:4px;">via Autopilot</span></div>
+            <div class="pt-bar-wrap">
+              <div class="pt-bar"><div class="pt-seg ok" style="width:45%;"></div><div class="pt-seg run" style="width:55%;"></div></div>
+              <div class="pt-hover-tip">9 ok · 11 em exec.</div>
+              <div class="pt-bar-detail"><span class="ok-t">9 ok</span><span class="run-t">11 exec.</span></div>
+            </div>
+            <div class="pt-status-pill run">▶ Em andamento</div>
+            <div><div class="pt-count"><strong>9</strong>/20</div><div class="pt-pct">45%</div></div>
+          </div>
+
+          <div style="padding:10px 16px;font-size:11.5px;color:#9ca3af;display:flex;align-items:center;gap:6px;border-top:1px solid #f3f4f6;background:#fafafa;">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Conforme novos tipos de apuração (ICMS, PIS/COFINS, ECD, Sped) forem habilitados, novas linhas aparecem automaticamente aqui — nenhuma mudança estrutural necessária.
+          </div>
+        </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -920,17 +1655,20 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
   <div class="panel-overlay" id="panel-overlay" onclick="closePanel()"></div>
 
   <!-- PANEL: FOLHA SEM APONTAMENTOS -->
-  <div class="side-panel" id="panel-folha-sa">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#0171E4;">● Motor DP · Recorrente</div>
-        <div class="sp-title">Folha sem Apontamentos</div>
-        <div class="sp-client"><span style="font-weight:600;">Alfa LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 12.345.678/0001-90</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor DP</span><span class="sp-meta-dot">·</span><span>14/06/2026 às 09:00</span></div>
+  <div class="side-panel" id="panel-folha-sa" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR DP · RECORRENTE</div>
+        <div class="tm-title">Folha sem Apontamentos</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Alfa LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 12.345.678/0001-90</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>BHub</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Jeniffer Ferreira</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="folha-sa-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle current">2</div><div class="sp-label current-l">Atuação do operador</div><div class="sp-sublabel current-s">Em andamento</div></div>
@@ -939,7 +1677,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">3 de 9 etapas concluídas (33%)</div></div>
       <div class="cl-group-label">Verificação inicial</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar completude dos insumos</div><div class="cl-detail">Todos os dados do mês confirmados — 12 colaboradores ativos</div></div><div class="cl-right"><div class="cl-time">14/06 · 09:02</div></div></div>
@@ -961,20 +1699,31 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar ao cliente via Hub e e-mail</div><div class="cl-detail">GDocs · GPC · notificação</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="dep-block"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg><div class="dep-block-info"><div class="dep-block-title">DCTFWeb aguarda a conclusão desta tarefa</div><div class="dep-block-detail">Tarefa #DP-20603 está bloqueada · liberada ao concluir <span class="cl-badge-link purple" onclick="openPanel('dctf')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Ver tarefa</span></div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: FOLHA PRÓ-LABORE -->
-  <div class="side-panel" id="panel-folha-pl">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#0171E4;">● Motor DP · Recorrente</div>
-        <div class="sp-title">Folha Pró-Labore</div>
-        <div class="sp-client"><span style="font-weight:600;">Beta LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 98.765.432/0001-10</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor DP</span><span class="sp-meta-dot">·</span><span>14/06/2026 às 08:45</span></div>
+  <div class="side-panel" id="panel-folha-pl" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR DP · RECORRENTE</div>
+        <div class="tm-title">Folha Pró-Labore</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Beta LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 98.765.432/0001-10</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>ContJet</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Jeniffer Ferreira</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="folha-pl-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Atuação do operador</div><div class="sp-sublabel done-s">Concluído</div></div>
@@ -983,7 +1732,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">5 de 8 etapas concluídas (62%)</div></div>
       <div class="cl-group-label">Verificação inicial</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar completude dos insumos</div><div class="cl-detail">Dados do mês confirmados — 3 sócios ativos</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:46</div></div></div>
@@ -998,20 +1747,31 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Gerar relatórios e demonstrativos</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar ao cliente via Hub e e-mail</div><div class="cl-detail">GDocs · GPC · notificação</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: DCTFWEB -->
-  <div class="side-panel" id="panel-dctf">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#7c3aed;">● Motor DP · Recorrente · Dependente</div>
-        <div class="sp-title">DCTFWeb</div>
-        <div class="sp-client"><span style="font-weight:600;">Alfa LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 12.345.678/0001-90</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span></div>
-        <div class="sp-meta"><span>Prazo: 20/06/2026 · 23:59</span></div>
+  <div class="side-panel" id="panel-dctf" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR DP · RECORRENTE · DEPENDENTE</div>
+        <div class="tm-title">DCTFWeb</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Alfa LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 12.345.678/0001-90</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span></div>
+        <div class="tm-metaline">Origem: <strong>BHub</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Jeniffer Ferreira</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="dctf-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle waiting">1</div><div class="sp-label">Recebida</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">2</div><div class="sp-label">Atuação do operador</div><div class="sp-sublabel">Aguardando</div></div>
@@ -1020,7 +1780,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div style="padding:12px 18px;background:#faf5ff;border-bottom:1px solid #ede9fe;display:flex;gap:9px;align-items:flex-start;">
         <svg fill="none" viewBox="0 0 24 24" stroke="#7c3aed" stroke-width="2" style="width:14px;height:14px;flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
         <div><div style="font-size:12.5px;font-weight:600;color:#7c3aed;margin-bottom:2px;">Esta tarefa está bloqueada</div><div style="font-size:11.5px;color:#6d28d9;">Aguardando conclusão da <span style="font-weight:600;text-decoration:underline;cursor:pointer;" onclick="openPanel('folha-sa')">Folha sem Apontamentos (#DP-20601)</span> · será liberada automaticamente.</div></div>
@@ -1039,55 +1799,81 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Receber recibo de transmissão</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar comprovante ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: DAS -->
-  <div class="side-panel" id="panel-das">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#2E7D4F;">● Motor Fiscal · Recorrente</div>
-        <div class="sp-title">Apuração DAS</div>
-        <div class="sp-client"><span style="font-weight:600;">Gama ME</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 33.110.928/0001-71</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor Fiscal</span><span class="sp-meta-dot">·</span><span>14/06/2026 às 08:30</span></div>
+  <div class="side-panel" id="panel-das" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR FISCAL · RECORRENTE</div>
+        <div class="tm-title">Apuração DAS</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Gama ME</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 33.110.928/0001-71</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>ContJet</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Rodrigo Tavares</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
-      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="das-feito">
+          <div class="sp-stepper">
+      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Verificação Inicial</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
-      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Atuação do operador</div><div class="sp-sublabel done-s">Concluído</div></div>
+      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Processamento e Cálculo</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
-      <div class="sp-step"><div class="sp-circle current">3</div><div class="sp-label current-l">Processamento</div><div class="sp-sublabel current-s">Em andamento</div></div>
+      <div class="sp-step"><div class="sp-circle current">3</div><div class="sp-label current-l">Transmissão Obrigações</div><div class="sp-sublabel current-s">Em andamento</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Entrega ao Cliente</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
-      <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">4 de 7 etapas concluídas (57%)</div></div>
-      <div class="cl-group-label">Apuração e cálculo</div>
-      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar elegibilidade e dados do cliente</div><div class="cl-detail">Tags DAS confirmadas no Cockpit</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:31</div></div></div>
-      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Calcular DAS via BHules</div><div class="cl-detail">Simples Nacional · alíquota 8,5% · DAS: R$ 3.240,00</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:35</div></div></div>
-      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar resultado com histórico do cliente</div><div class="cl-detail">Dentro da margem esperada — sem anomalia</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:36</div></div></div>
-      <div class="cl-group-label">Transmissão PGDAS</div>
-      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Enviar declaração PGDAS via SERPRO</div><div class="cl-detail">Declaração transmitida com sucesso</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:41</div></div></div>
-      <div class="cl-row"><div class="cl-check running">▶</div><div class="cl-info"><div class="cl-name" style="color:#1d4ed8;">Gerar DAS (guia de pagamento) via SERPRO</div><div class="cl-detail">Em processamento...</div></div><div class="cl-right"><div class="cl-time" style="color:#3b82f6;">14/06 · agora</div></div></div>
-      <div class="cl-group-label">Entrega ao cliente</div>
-      <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Salvar guia no GDocs e criar tarefa no GPC</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
-      <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Notificar cliente com a guia</div><div class="cl-detail">Via Notificador ou compartilhamento do GDocs</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+          <div class="sp-body">
+      <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">6 de 10 etapas concluídas (60%)</div></div>
+      <div class="cl-group-label">Verificação Inicial</div>
+      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar elegibilidade e dados do cliente</div><div class="cl-detail">Dados confirmados - Apuração DAS iniciada · Tags DAS confirmadas</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:31</div></div></div>
+      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Importar Notas Fiscais daquela competência via BHules</div><div class="cl-detail">Notas fiscais localizadas na competência — qtde de notas e valor total</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:33</div></div></div>
+      <div class="cl-group-label">Processamento e Cálculo</div>
+      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Realizar a apuração da Receita Bruta</div><div class="cl-detail">Receita bruta apurada — faturamento − devoluções</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:34</div></div></div>
+      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Calcular DAS</div><div class="cl-detail">Mesma faixa do anexo do mês anterior — alíquota efetiva mantida<br>Mesmo anexo do mês anterior (Fator R) — sem migração III ↔ V<br>Base de cálculo e alíquota efetiva apuradas (PGDAS-D) — DAS: R$ 3.240,00</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:35</div></div></div>
+      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar resultado com histórico do cliente</div><div class="cl-detail">Receita dentro da faixa histórica — variação vs. a média (até 12m) dentro de ±XX%</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:36</div></div></div>
+      <div class="cl-group-label">Transmissão Obrigações</div>
+      <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Enviar declaração PGDAS via SERPRO</div><div class="cl-detail">Declaração transmitida à Serpro — recibo nº 8851902-SP</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:40</div></div></div>
+      <div class="cl-row"><div class="cl-check running">▶</div><div class="cl-info"><div class="cl-name" style="color:#1d4ed8;">Gerar guia DAS via SERPRO</div><div class="cl-detail">Em processamento...</div></div><div class="cl-right"><div class="cl-time" style="color:#3b82f6;">14/06 · agora</div></div></div>
+      <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Gerar relatório de faturamento via motor</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+      <div class="cl-group-label">Entrega ao Cliente</div>
+      <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Salvar documentos no GDocs e criar tarefa no GPC</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+      <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Notificar disponibilização de documentos ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+    </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
     </div>
   </div>
 
   <!-- PANEL: REINF (Em espera — não iniciada) -->
-  <div class="side-panel" id="panel-reinf">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#2E7D4F;">● Motor Fiscal · Recorrente</div>
-        <div class="sp-title">REINF</div>
-        <div class="sp-client"><span style="font-weight:600;">Delta S/A</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 55.444.333/0001-22</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor Fiscal</span><span class="sp-meta-dot">·</span><span>Início previsto: 18/06/2026</span></div>
+  <div class="side-panel" id="panel-reinf" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR FISCAL · RECORRENTE</div>
+        <div class="tm-title">REINF</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Delta S/A</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 55.444.333/0001-22</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>BHub</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Rodrigo Tavares</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="reinf-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle waiting">1</div><div class="sp-label">Recebida</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">2</div><div class="sp-label">Atuação do operador</div><div class="sp-sublabel">Aguardando</div></div>
@@ -1096,7 +1882,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <!-- Not started block -->
       <div class="not-started-block">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -1116,20 +1902,48 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Receber protocolo de aceite</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar comprovante ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: ADMISSÃO -->
-  <div class="side-panel" id="panel-adm">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#00897B;">● Motor DP · De cliente · via Hub</div>
-        <div class="sp-title">Admissão — João da Silva</div>
-        <div class="sp-client"><span style="font-weight:600;">Épsilon Ltda</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 27.918.330/0001-44</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Solicitado via Hub</span><span class="sp-meta-dot">·</span><span>14/06/2026 às 10:45</span></div>
+  <div class="side-panel" id="panel-adm" data-hub="true">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR DP · DE CLIENTE · VIA HUB</div>
+        <div class="tm-title">Admissão — João da Silva</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Épsilon Ltda</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 27.918.330/0001-44</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>BHub</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Jeniffer Ferreira</strong></div>
+        <div class="tm-metaline">Solicitado por — <span class="tm-pill-cliente">cliente</span> <span class="tm-dot">·</span> recebida 10:45 <span class="tm-dot">·</span> <span class="tm-pill-status">✓ Concluída</span></div>
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-tabs">
+      <div class="tm-tab" data-panel="adm" data-tab="resumo" onclick="tmSwitchTab(this)">Resumo</div>
+      <div class="tm-tab" data-panel="adm" data-tab="conversa" onclick="tmSwitchTab(this)">Conversa</div>
+      <div class="tm-tab active" data-panel="adm" data-tab="feito" onclick="tmSwitchTab(this)">O que foi feito</div>
+    </div>
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel" data-tabpanel="adm-resumo">
+          <div class="tm-resumo-box">
+            <div class="tm-resumo-row"><span>Cliente</span><strong>Épsilon Ltda</strong></div>
+            <div class="tm-resumo-row"><span>Tipo de solicitação</span><strong>Admissão — João da Silva</strong></div>
+            <div class="tm-resumo-row"><span>Origem</span><strong>BHub · via Hub</strong></div>
+            <div class="tm-resumo-row"><span>Recebida em</span><strong>14/06/2026 às 10:45</strong></div>
+            <div class="tm-resumo-row"><span>Atribuído a</span><strong>Jeniffer Ferreira</strong></div>
+          </div>
+        </div>
+        <div class="tm-tabpanel" data-tabpanel="adm-conversa">
+          <div class="tm-empty-state">Nenhuma mensagem trocada com o cliente nesta solicitação até o momento.</div>
+        </div>
+        <div class="tm-tabpanel active" data-tabpanel="adm-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Processamento</div><div class="sp-sublabel done-s">Concluído</div></div>
@@ -1138,7 +1952,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Concluída</div><div class="sp-sublabel done-s">11:32</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">5 de 5 etapas concluídas (100%)</div></div>
       <div class="cl-group-label">Solicitação do cliente</div>
       <div class="cl-row cl-hub-row">
@@ -1153,20 +1967,32 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-group-label">Entrega</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Disponibilizar confirmação ao cliente via Hub</div><div class="cl-detail">Comprovante enviado · cliente notificado</div></div><div class="cl-right"><div class="cl-time">14/06 · 11:32</div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+        <div class="tm-btn-primary"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10"/></svg>Abrir tarefa</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: CONCILIAÇÃO FINANCEIRA -->
-  <div class="side-panel" id="panel-concfin">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#6d28d9;">● Motor Contábil · Recorrente</div>
-        <div class="sp-title">Conciliação Financeira</div>
-        <div class="sp-client"><span style="font-weight:600;">Alfa LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 12.345.678/0001-90</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor Contábil</span><span class="sp-meta-dot">·</span><span>14/06/2026 às 07:30</span></div>
+  <div class="side-panel" id="panel-concfin" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR CONTÁBIL · RECORRENTE</div>
+        <div class="tm-title">Conciliação Extratos</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Alfa LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 12.345.678/0001-90</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>BHub</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Thaís Almeida</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="concfin-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle current">2</div><div class="sp-label current-l">Atuação do operador</div><div class="sp-sublabel current-s">Em andamento</div></div>
@@ -1175,7 +2001,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">2 de 5 etapas concluídas (40%)</div></div>
       <div class="cl-group-label">Importação e matching</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Importar extratos bancários (Open Banking/OFX)</div><div class="cl-detail">3 contas · 142 lançamentos importados</div></div><div class="cl-right"><div class="cl-time">14/06 · 07:30</div></div></div>
@@ -1190,20 +2016,31 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Registrar lançamentos contábeis da conciliação</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar relatório de conciliação ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: CONCILIAÇÃO DP -->
-  <div class="side-panel" id="panel-concdp">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#6d28d9;">● Motor Contábil · Recorrente</div>
-        <div class="sp-title">Conciliação DP</div>
-        <div class="sp-client"><span style="font-weight:600;">Beta LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 98.765.432/0001-10</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor Contábil</span><span class="sp-meta-dot">·</span><span>14/06/2026 às 09:30</span></div>
+  <div class="side-panel" id="panel-concdp" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR CONTÁBIL · RECORRENTE</div>
+        <div class="tm-title">Conciliação DP</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Beta LTDA</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 98.765.432/0001-10</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>ContJet</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Thaís Almeida</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="concdp-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Atuação do operador</div><div class="sp-sublabel done-s">Concluído</div></div>
@@ -1212,7 +2049,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">3 de 5 etapas concluídas (60%)</div></div>
       <div class="cl-group-label">Importação e matching</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Importar dados da folha do Motor DP</div><div class="cl-detail">Folha Pró-Labore · Jun/2026</div></div><div class="cl-right"><div class="cl-time">14/06 · 09:30</div></div></div>
@@ -1223,20 +2060,31 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-row"><div class="cl-check running">▶</div><div class="cl-info"><div class="cl-name">Registrar lançamentos contábeis de folha</div><div class="cl-detail">Processando...</div></div><div class="cl-right"><div class="cl-time">14/06 · agora</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar relatório ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: CONCILIAÇÃO FISCAL -->
-  <div class="side-panel" id="panel-concfis">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#6d28d9;">● Motor Contábil · Recorrente</div>
-        <div class="sp-title">Conciliação Fiscal</div>
-        <div class="sp-client"><span style="font-weight:600;">Gama ME</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 33.110.928/0001-71</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor Contábil</span><span class="sp-meta-dot">·</span><span>14/06/2026 às 10:00</span></div>
+  <div class="side-panel" id="panel-concfis" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR CONTÁBIL · RECORRENTE</div>
+        <div class="tm-title">Conciliação Fiscal</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Gama ME</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 33.110.928/0001-71</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>ContJet</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Thaís Almeida</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="concfis-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Atuação do operador</div><div class="sp-sublabel done-s">Concluído</div></div>
@@ -1245,7 +2093,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line wait-line"></div>
       <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">2 de 5 etapas concluídas (40%)</div></div>
       <div class="cl-group-label">Importação e matching</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Importar guias e apurações do Motor Fiscal</div><div class="cl-detail">DAS, ISS e DIFAL do ciclo</div></div><div class="cl-right"><div class="cl-time">14/06 · 10:00</div></div></div>
@@ -1256,20 +2104,31 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Registrar lançamentos contábeis das obrigações fiscais</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar relatório ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
+    </div>
   </div>
 
   <!-- PANEL: CONFERÊNCIA BALANCETE MENSAL -->
-  <div class="side-panel" id="panel-balancete">
-    <div class="sp-topbar">
-      <div style="flex:1;">
-        <div class="motor-badge" style="color:#6d28d9;">● Motor Contábil · Recorrente</div>
-        <div class="sp-title">Conferência Balancete Mensal</div>
-        <div class="sp-client"><span style="font-weight:600;">Épsilon Ltda</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 27.918.330/0001-44</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
-        <div class="sp-meta"><span>Autopilot · Motor Contábil</span><span class="sp-meta-dot">·</span><span>13/06/2026 às 15:50</span></div>
+  <div class="side-panel" id="panel-balancete" data-hub="false">
+    <div class="tm-header">
+      <div style="flex:1;min-width:0;">
+        <div class="tm-eyebrow" style="color:#6b7280;">MOTOR CONTÁBIL · RECORRENTE</div>
+        <div class="tm-title">Conferência Balancete Mensal</div>
+        <div class="tm-clientline"><span style="font-weight:600;">Épsilon Ltda</span><span style="color:#9ca3af;font-family:monospace;font-size:11px;">· 27.918.330/0001-44</span><span style="color:#9ca3af;">·</span><span style="font-weight:600;color:#374151;">Jun/2026</span><span class="sp-client-link"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Abrir cliente</span></div>
+        <div class="tm-metaline">Origem: <strong>BHub</strong> <span class="tm-dot">·</span> ERP operado: <strong>Autopilot</strong> <span class="tm-dot">·</span> Atribuído a <strong>Thaís Almeida</strong></div>
+        
       </div>
       <div class="sp-close" onclick="closePanel()"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:12px;height:12px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>
-    <div class="sp-stepper">
+    <div class="tm-body-scroll">
+        <div class="tm-tabpanel active" data-tabpanel="balancete-feito">
+          <div class="sp-stepper">
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Processamento</div><div class="sp-sublabel done-s">Concluído</div></div>
@@ -1278,7 +2137,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="sp-line done-line"></div>
       <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Concluída</div><div class="sp-sublabel done-s">13/06 · 16:40</div></div>
     </div>
-    <div class="sp-body">
+          <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">5 de 5 etapas concluídas (100%)</div></div>
       <div class="cl-group-label">Fechamento do período</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Consolidar lançamentos do mês (financeiro, DP e fiscal)</div><div class="cl-detail">Todas as conciliações do ciclo concluídas</div></div><div class="cl-right"><div class="cl-time">13/06 · 15:50</div></div></div>
@@ -1288,6 +2147,14 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="cl-group-label">Entrega</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Gerar balancete mensal</div><div class="cl-detail">PDF gerado e salvo no GDocs</div></div><div class="cl-right"><div class="cl-time">13/06 · 16:35</div></div></div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Disponibilizar ao cliente via Hub e e-mail</div></div><div class="cl-right"><div class="cl-time">13/06 · 16:40</div></div></div>
+    </div>
+        </div>
+    </div>
+    <div class="tm-footer">
+      <div class="tm-copylink"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Copiar link</div>
+      <div class="tm-footer-right">
+        <div class="tm-btn-secondary" onclick="closePanel()">Fechar</div>
+      </div>
     </div>
   </div>
 
@@ -1472,7 +2339,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           <div class="progtype-group-hd ctb"><div class="dot"></div>Motor Contábil <span class="count">4 tipos de tarefa</span></div>
 
           <div class="pt-row">
-            <div class="pt-name">Conciliação Financeira</div>
+            <div class="pt-name">Conciliação Extratos</div>
             <div class="pt-bar-wrap">
               <div class="pt-bar"><div class="pt-seg ok" style="width:55%;"></div><div class="pt-seg run" style="width:25%;"></div><div class="pt-seg hitl" style="width:8%;"></div><div class="pt-seg wait" style="width:12%;"></div></div>
               <div class="pt-hover-tip">11 ok · 5 em exec. · 2 HITL · 2 espera</div>
@@ -1611,7 +2478,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           <div class="progtype-group-hd ctb"><div class="dot"></div>Motor Contábil</div>
 
           <div class="pt-row">
-            <div class="pt-name">Conciliação Financeira</div>
+            <div class="pt-name">Conciliação Extratos</div>
             <div class="pt-bar-wrap"><div class="pt-bar"><div class="pt-seg hitl" style="width:100%;"></div></div><div class="pt-hover-tip">1 aguardando operador</div><div class="pt-bar-detail"><span class="hitl-t">⚠ 1 aguardando operador</span></div></div>
             <div class="pt-status-pill hitl">⚠ Atenção</div>
             <div><div class="pt-count"><strong>0</strong>/1</div><div class="pt-pct">0%</div></div>
@@ -1663,7 +2530,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           <div class="cli2-motor">
             <div class="cli2-motor-tag ctb">Contábil</div>
             <div class="cli2-motor-bar-col">
-              <div class="cli2-mbar"><div class="cli2-mseg hitl" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">⚠ Aguard. operador (1)</span><div class="cli2-mseg-tip-list">Conciliação Financeira</div></div></div></div>
+              <div class="cli2-mbar"><div class="cli2-mseg hitl" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">⚠ Aguard. operador (1)</span><div class="cli2-mseg-tip-list">Conciliação Extratos</div></div></div></div>
               <div class="cli2-mlegend"><span class="hitl-t">⚠ 1 aguardando operador</span></div>
             </div>
             <div class="cli2-pct-badge hitl">0%</div>
@@ -1682,7 +2549,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
         <div class="cli2-body-row"><div class="cli2-body-dot wait"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">REINF — aguardando início</div><div class="cli2-body-val">0/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração ISS</div><div class="cli2-body-val">1/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot ok"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Cálculo DIFAL</div><div class="cli2-body-val">1/1</div></div>
-        <div class="cli2-body-row"><div class="cli2-body-dot hitl"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Financeira — divergência detectada</div><div class="cli2-body-val">0/1</div><div class="cli2-link" onclick="event.stopPropagation();">Ver pendência →</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot hitl"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Extratos — divergência detectada</div><div class="cli2-body-val">0/1</div><div class="cli2-link" onclick="event.stopPropagation();">Ver pendência →</div></div>
       </div>
     </div>
 
@@ -1948,21 +2815,74 @@ function goToFechamento(){
   document.getElementById('sb-fechamento').classList.add('active');
 }
 
-function openPanel(id){document.querySelectorAll('.side-panel').forEach(p=>p.classList.remove('open'));document.querySelectorAll('.task-row-tr').forEach(r=>r.classList.remove('active-row'));const p=document.getElementById('panel-'+id);if(p)p.classList.add('open');const r=document.getElementById('row-'+id);if(r)r.classList.add('active-row');document.getElementById('panel-overlay').classList.add('open');}
+function openPanel(id){document.querySelectorAll('.side-panel').forEach(p=>p.classList.remove('open'));document.querySelectorAll('.task-row-tr').forEach(r=>r.classList.remove('active-row'));const p=document.getElementById('panel-'+id);if(p){p.classList.add('open');
+    // reset to default tab: "O que foi feito" for every task, hub or autopilot
+    p.querySelectorAll('.tm-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab==='feito'));
+    p.querySelectorAll('.tm-tabpanel').forEach(tp=>tp.classList.toggle('active', tp.dataset.tabpanel.endsWith('-feito') || tp.dataset.tabpanel===id+'-feito' || !tp.dataset.tabpanel.includes('-')));
+  }
+  const r=document.getElementById('row-'+id);if(r)r.classList.add('active-row');document.getElementById('panel-overlay').classList.add('open');}
 function closePanel(){document.querySelectorAll('.side-panel').forEach(p=>p.classList.remove('open'));document.querySelectorAll('.task-row-tr').forEach(r=>r.classList.remove('active-row'));document.getElementById('panel-overlay').classList.remove('open');}
-function toggleGroup(id){const rows=document.getElementById('rows-'+id);const chev=document.getElementById('chev-'+id);if(!rows)return;const hidden=rows.style.display==='none';rows.style.display=hidden?'':'none';if(chev)chev.classList.toggle('open',hidden);}
-function toggleMotorDropdown(){document.getElementById('motor-menu').classList.toggle('open');}
-function selectMotor(val){
-  const chip=document.getElementById('motor-chip');
-  const menu=document.getElementById('motor-menu');
-  menu.querySelectorAll('.fdm-item').forEach(i=>i.classList.remove('active','active-fiscal'));
-  if(val==='dp'){chip.textContent='';chip.innerHTML='Motor: <span style="color:#1d4ed8;font-weight:700;">DP</span> ▾';chip.className='filter-chip motor-chip-active';menu.querySelector('[onclick*="dp"]').classList.add('active');}
-  else if(val==='fiscal'){chip.textContent='';chip.innerHTML='Motor: <span style="color:#166534;font-weight:700;">Fiscal</span> ▾';chip.className='filter-chip motor-chip-active-fiscal';menu.querySelector('[onclick*="fiscal"]').classList.add('active-fiscal');}
-  else if(val==='ctb'){chip.textContent='';chip.innerHTML='Motor: <span style="color:#6d28d9;font-weight:700;">Contábil</span> ▾';chip.className='filter-chip motor-chip-active-ctb';menu.querySelector('[onclick*="ctb"]').classList.add('active-fiscal');}
-  else{chip.innerHTML='Motor <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:11px;height:11px;"><polyline points="6 9 12 15 18 9"/></svg>';chip.className='filter-chip';}
-  menu.classList.remove('open');
+function tmSwitchTab(el){
+  const panelId = el.dataset.panel, tab = el.dataset.tab;
+  const panel = document.getElementById('panel-'+panelId);
+  if(!panel) return;
+  panel.querySelectorAll('.tm-tab').forEach(t=>t.classList.toggle('active', t===el));
+  panel.querySelectorAll('.tm-tabpanel').forEach(tp=>tp.classList.toggle('active', tp.dataset.tabpanel === panelId+'-'+tab));
 }
-document.addEventListener('click',function(e){const dd=document.getElementById('motor-dropdown');if(dd&&!dd.contains(e.target))document.getElementById('motor-menu').classList.remove('open');});
+function toggleGroup(id){const rows=document.getElementById('rows-'+id);const chev=document.getElementById('chev-'+id);if(!rows)return;const hidden=rows.style.display==='none';rows.style.display=hidden?'':'none';if(chev)chev.classList.toggle('open',hidden);}
+// ── Agrupar por: Operador / Cliente / Tipo (Tarefas Autopilot) ──
+function setGroupBy(mode, el){
+  document.querySelectorAll('.gb-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  ['operador','cliente','tipo'].forEach(m=>{
+    const v = document.getElementById('gbview-'+m);
+    if(v) v.style.display = (m===mode ? 'block' : 'none');
+  });
+}
+function dgC2Toggle(id){
+  const body = document.getElementById('dgc2-body-'+id);
+  const chev = document.getElementById('dgc2-chev-'+id);
+  if(!body) return;
+  const hidden = body.style.display === 'none';
+  body.style.display = hidden ? 'block' : 'none';
+  if(chev) chev.classList.toggle('open', hidden);
+}
+
+// ── Filtros interativos (Cliente, Família, Departamento, Tipo, Operador, Gerente, Origem, Estado) ──
+const FDD_LABELS = {cliente:'Cliente', familia:'Família', depto:'Departamento', tipo:'Tipo', operador:'Operador', gerente:'Gerente', origem:'Origem', estado:'Estado'};
+const FDD_CARET = '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:11px;height:11px;"><polyline points="6 9 12 15 18 9"/></svg>';
+function toggleFDD(key){
+  document.querySelectorAll('.filter-dropdown-menu').forEach(m=>{ if(m.id !== key+'-menu') m.classList.remove('open'); });
+  const menu = document.getElementById(key+'-menu');
+  if(menu) menu.classList.toggle('open');
+}
+function selectFDD(key, label, el){
+  const chip = document.getElementById(key+'-chip');
+  if(chip){
+    chip.innerHTML = FDD_LABELS[key]+': <strong>'+label+'</strong> '+FDD_CARET;
+    chip.classList.add('filter-chip-active');
+  }
+  const menu = document.getElementById(key+'-menu');
+  if(menu){
+    menu.querySelectorAll('.fdm-item').forEach(i=>i.classList.remove('active'));
+    if(el) el.classList.add('active');
+    menu.classList.remove('open');
+  }
+}
+function clearFDD(key){
+  const chip = document.getElementById(key+'-chip');
+  if(chip){
+    chip.innerHTML = FDD_LABELS[key]+' '+FDD_CARET;
+    chip.classList.remove('filter-chip-active');
+  }
+  const menu = document.getElementById(key+'-menu');
+  if(menu) menu.classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  document.querySelectorAll('.filter-dropdown').forEach(dd=>{
+    if(!dd.contains(e.target)){ const m=dd.querySelector('.filter-dropdown-menu'); if(m) m.classList.remove('open'); }
+  });
+});
 
 
 /* ── FECHAMENTO MENSAL JS ── */
@@ -2026,7 +2946,7 @@ const clientData = {
         stages:[{name:'Elegibilidade',status:'done'},{name:'Cálculo',status:'done'},{name:'Guia',status:'done'},{name:'Entrega',status:'done'}],
         checklist:[{g:'Resumo', items:[{s:'done', name:'Cálculo DIFAL concluído', detail:'Guia gerada e entregue', time:'11/06 · 16:00'}]}]
       },
-      { dept:'ctb', tipo:'Conciliação Financeira', comp:'Jun/2026', prazo:'17/06/2026 · 18:00', status:'hitl',
+      { dept:'ctb', tipo:'Conciliação Extratos', comp:'Jun/2026', prazo:'17/06/2026 · 18:00', status:'hitl',
         stages:[{name:'Importação',status:'done'},{name:'Matching',status:'done'},{name:'Verificação',status:'hitl'},{name:'Lançamento',status:'idle'},{name:'Entrega',status:'idle'}],
         checklist:[
           {g:'Importação e matching', items:[
@@ -2041,7 +2961,7 @@ const clientData = {
   },
   beta: {
     name: 'Beta LTDA', cnpj: '98.765.432/0001-10', operador: 'Jeniffer Ferreira / Rodrigo Tavares',
-    kpis: {total:4, concluidas:0, execucao:4, hitl:0, dep:0},
+    kpis: {total:5, concluidas:1, execucao:4, hitl:0, dep:0},
     tarefas: [
       { dept:'dp', tipo:'Folha Pró-Labore', comp:'Jun/2026', prazo:'14/06/2026 · 18:00', status:'run',
         stages:[{name:'Verificação inicial',status:'done'},{name:'Cálculo da folha',status:'done'},{name:'eSocial',status:'done'},{name:'Guias e relatórios',status:'running'},{name:'Entrega',status:'idle'}],
@@ -2055,8 +2975,50 @@ const clientData = {
         ]
       },
       { dept:'fiscal', tipo:'Apuração DAS', comp:'Jun/2026', prazo:'15/06/2026 · 18:00', status:'run',
-        stages:[{name:'Apuração',status:'done'},{name:'PGDAS',status:'running'},{name:'Guia',status:'idle'},{name:'Entrega',status:'idle'}],
-        checklist:[{g:'Apuração', items:[{s:'done', name:'Calcular DAS via BHules', detail:'Simples Nacional', time:'14/06 · 09:00'}]}, {g:'Transmissão', items:[{s:'run', name:'Enviar declaração PGDAS', detail:'Em processamento...'}]}]
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'running'},{name:'Entrega ao Cliente',status:'idle'}],
+        checklist:[
+          {g:'Verificação Inicial', items:[
+            {s:'done', name:'Verificar elegibilidade e dados do cliente', detail:'Dados confirmados - Apuração DAS iniciada', time:'14/06 · 08:55'},
+            {s:'done', name:'Importar Notas Fiscais daquela competência via BHules', detail:'Notas fiscais localizadas na competência — qtde de notas e valor total', time:'14/06 · 08:57'},
+          ]},
+          {g:'Processamento e Cálculo', items:[
+            {s:'done', name:'Realizar a apuração da Receita Bruta', detail:'Receita bruta apurada — faturamento − devoluções', time:'14/06 · 08:58'},
+            {s:'done', name:'Calcular DAS', detail:'Mesma faixa do anexo do mês anterior — alíquota efetiva mantida<br>Mesmo anexo do mês anterior (Fator R) — sem migração III ↔ V<br>Base de cálculo e alíquota efetiva apuradas (PGDAS-D) — Simples Nacional', time:'14/06 · 08:59'},
+            {s:'done', name:'Verificar resultado com histórico do cliente', detail:'Receita dentro da faixa histórica — variação vs. a média (até 12m) dentro de ±XX%', time:'14/06 · 09:00'},
+          ]},
+          {g:'Transmissão Obrigações', items:[
+            {s:'run', name:'Enviar declaração PGDAS via SERPRO', detail:'Em processamento...'},
+            {s:'idle', name:'Gerar guia DAS via SERPRO'},
+            {s:'idle', name:'Gerar relatório de faturamento via motor'},
+          ]},
+          {g:'Entrega ao Cliente', items:[
+            {s:'idle', name:'Salvar documentos no GDocs e criar tarefa no GPC'},
+            {s:'idle', name:'Notificar disponibilização de documentos ao cliente'},
+          ]},
+        ]
+      },
+      { dept:'fiscal', tipo:'Apuração DAS', comp:'Mai/2026', prazo:'Entregue · 15/05', status:'ok',
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'done'},{name:'Entrega ao Cliente',status:'done'}],
+        checklist:[
+          {g:'Verificação Inicial', items:[
+            {s:'done', name:'Verificar elegibilidade e dados do cliente', detail:'Dados confirmados - Apuração DAS iniciada', time:'15/05 · 08:40'},
+            {s:'done', name:'Importar Notas Fiscais daquela competência via BHules', detail:'Notas fiscais localizadas na competência — qtde de notas e valor total', time:'15/05 · 08:42'},
+          ]},
+          {g:'Processamento e Cálculo', items:[
+            {s:'done', name:'Realizar a apuração da Receita Bruta', detail:'Receita bruta apurada — faturamento − devoluções', time:'15/05 · 08:44'},
+            {s:'done', name:'Calcular DAS', detail:'Mesma faixa do anexo do mês anterior — alíquota efetiva mantida<br>Mesmo anexo do mês anterior (Fator R) — sem migração III ↔ V<br>Base de cálculo e alíquota efetiva apuradas (PGDAS-D) — Simples Nacional', time:'15/05 · 08:46'},
+            {s:'done', name:'Verificar resultado com histórico do cliente', detail:'Receita dentro da faixa histórica — variação vs. a média (até 12m) dentro de ±XX%', time:'15/05 · 08:46'},
+          ]},
+          {g:'Transmissão Obrigações', items:[
+            {s:'done', name:'Enviar declaração PGDAS via SERPRO', detail:'Declaração transmitida à Serpro — recibo nº 8847213-SP', time:'15/05 · 08:50'},
+            {s:'done', name:'Gerar guia DAS via SERPRO', detail:'Guia DAS gerada via Serpro', time:'15/05 · 08:51'},
+            {s:'done', name:'Gerar relatório de faturamento via motor', detail:'Relatório de Faturamento gerado via Motor Fiscal', time:'15/05 · 08:52'},
+          ]},
+          {g:'Entrega ao Cliente', items:[
+            {s:'done', name:'Salvar documentos no GDocs e criar tarefa no GPC', detail:'DAS disponibilizado no Hub do Empreendedor', time:'15/05 · 08:54'},
+            {s:'done', name:'Notificar disponibilização de documentos ao cliente', detail:'Cliente notificado via Hub do Empreendedor', time:'15/05 · 08:55'},
+          ]},
+        ]
       },
       { dept:'fiscal', tipo:'Cálculo DIFAL', comp:'Jun/2026', prazo:'19/06/2026', status:'run',
         stages:[{name:'Elegibilidade',status:'done'},{name:'Cálculo',status:'running'},{name:'Guia',status:'idle'},{name:'Entrega',status:'idle'}],
@@ -2073,16 +3035,52 @@ const clientData = {
   },
   gama: {
     name: 'Gama ME', cnpj: '33.110.928/0001-71', operador: 'Rodrigo Tavares',
-    kpis: {total:3, concluidas:0, execucao:2, hitl:0, dep:0},
+    kpis: {total:4, concluidas:1, execucao:2, hitl:0, dep:0},
     tarefas: [
       { dept:'fiscal', tipo:'Apuração DAS', comp:'Jun/2026', prazo:'15/06/2026 · 18:00', status:'run',
-        stages:[{name:'Apuração',status:'done'},{name:'Verificação',status:'done'},{name:'PGDAS',status:'running'},{name:'Entrega',status:'idle'}],
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'running'},{name:'Entrega ao Cliente',status:'idle'}],
         checklist:[
-          {g:'Apuração e cálculo', items:[
-            {s:'done', name:'Verificar elegibilidade e dados', detail:'Tags DAS confirmadas', time:'14/06 · 08:31'},
-            {s:'done', name:'Calcular DAS via BHules', detail:'DAS: R$ 3.240,00', time:'14/06 · 08:35'},
+          {g:'Verificação Inicial', items:[
+            {s:'done', name:'Verificar elegibilidade e dados do cliente', detail:'Dados confirmados - Apuração DAS iniciada · Tags DAS confirmadas', time:'14/06 · 08:31'},
+            {s:'done', name:'Importar Notas Fiscais daquela competência via BHules', detail:'Notas fiscais localizadas na competência — qtde de notas e valor total', time:'14/06 · 08:33'},
           ]},
-          {g:'Transmissão', items:[{s:'run', name:'Gerar DAS via SERPRO', detail:'Em processamento...', time:'14/06 · agora'}]},
+          {g:'Processamento e Cálculo', items:[
+            {s:'done', name:'Realizar a apuração da Receita Bruta', detail:'Receita bruta apurada — faturamento − devoluções', time:'14/06 · 08:34'},
+            {s:'done', name:'Calcular DAS', detail:'Mesma faixa do anexo do mês anterior — alíquota efetiva mantida<br>Mesmo anexo do mês anterior (Fator R) — sem migração III ↔ V<br>Base de cálculo e alíquota efetiva apuradas (PGDAS-D) — DAS: R$ 3.240,00', time:'14/06 · 08:35'},
+            {s:'done', name:'Verificar resultado com histórico do cliente', detail:'Receita dentro da faixa histórica — variação vs. a média (até 12m) dentro de ±XX%', time:'14/06 · 08:36'},
+          ]},
+          {g:'Transmissão Obrigações', items:[
+            {s:'done', name:'Enviar declaração PGDAS via SERPRO', detail:'Declaração transmitida à Serpro — recibo nº 8851902-SP', time:'14/06 · 08:40'},
+            {s:'run', name:'Gerar guia DAS via SERPRO', detail:'Em processamento...', time:'14/06 · agora'},
+            {s:'idle', name:'Gerar relatório de faturamento via motor'},
+          ]},
+          {g:'Entrega ao Cliente', items:[
+            {s:'idle', name:'Salvar documentos no GDocs e criar tarefa no GPC'},
+            {s:'idle', name:'Notificar disponibilização de documentos ao cliente'},
+          ]},
+        ]
+      },
+      { dept:'fiscal', tipo:'Apuração DAS', comp:'Mai/2026', prazo:'Entregue · 15/05', status:'ok',
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'done'},{name:'Entrega ao Cliente',status:'done'}],
+        checklist:[
+          {g:'Verificação Inicial', items:[
+            {s:'done', name:'Verificar elegibilidade e dados do cliente', detail:'Dados confirmados - Apuração DAS iniciada', time:'15/05 · 08:20'},
+            {s:'done', name:'Importar Notas Fiscais daquela competência via BHules', detail:'Notas fiscais localizadas na competência — qtde de notas e valor total', time:'15/05 · 08:22'},
+          ]},
+          {g:'Processamento e Cálculo', items:[
+            {s:'done', name:'Realizar a apuração da Receita Bruta', detail:'Receita bruta apurada — faturamento − devoluções', time:'15/05 · 08:24'},
+            {s:'done', name:'Calcular DAS', detail:'Mesma faixa do anexo do mês anterior — alíquota efetiva mantida<br>Mesmo anexo do mês anterior (Fator R) — sem migração III ↔ V<br>Base de cálculo e alíquota efetiva apuradas (PGDAS-D) — DAS: R$ 3.180,00', time:'15/05 · 08:26'},
+            {s:'done', name:'Verificar resultado com histórico do cliente', detail:'Receita dentro da faixa histórica — variação vs. a média (até 12m) dentro de ±XX%', time:'15/05 · 08:26'},
+          ]},
+          {g:'Transmissão Obrigações', items:[
+            {s:'done', name:'Enviar declaração PGDAS via SERPRO', detail:'Declaração transmitida à Serpro — recibo nº 8802147-SP', time:'15/05 · 08:30'},
+            {s:'done', name:'Gerar guia DAS via SERPRO', detail:'Guia DAS gerada via Serpro', time:'15/05 · 08:31'},
+            {s:'done', name:'Gerar relatório de faturamento via motor', detail:'Relatório de Faturamento gerado via Motor Fiscal', time:'15/05 · 08:32'},
+          ]},
+          {g:'Entrega ao Cliente', items:[
+            {s:'done', name:'Salvar documentos no GDocs e criar tarefa no GPC', detail:'DAS disponibilizado no Hub do Empreendedor', time:'15/05 · 08:34'},
+            {s:'done', name:'Notificar disponibilização de documentos ao cliente', detail:'Cliente notificado via Hub do Empreendedor', time:'15/05 · 08:35'},
+          ]},
         ]
       },
       { dept:'fiscal', tipo:'REINF', comp:'Jun/2026', prazo:'20/06/2026', status:'wait',
