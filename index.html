@@ -57,6 +57,23 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 .fdm-item.active{color:#111827;font-weight:700;}
 .filter-chip-active{background:#f3f4f6;border-color:#9ca3af;color:#111827;font-weight:700;}
 
+/* Calendar dropdown */
+.cal-menu{min-width:240px;padding:12px;}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.cal-nav{width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:5px;cursor:pointer;color:#6b7280;font-size:14px;font-weight:700;user-select:none;}
+.cal-nav:hover{background:#f3f4f6;}
+.cal-month{font-size:12.5px;font-weight:700;color:#111827;}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;margin-bottom:4px;}
+.cal-weekdays span{font-size:10px;font-weight:700;color:#9ca3af;padding:4px 0;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#374151;border-radius:6px;cursor:pointer;}
+.cal-day:hover{background:#f3f4f6;}
+.cal-day.other-month{color:#d1d5db;}
+.cal-day.today{background:#111827;color:#fff;font-weight:700;}
+.cal-footer{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6;}
+.cal-quick{font-size:11px;font-weight:600;color:#374151;padding:5px 9px;border-radius:6px;border:1px solid #e5e7eb;cursor:pointer;background:#fff;}
+.cal-quick:hover{background:#f9fafb;}
+
 .section-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;}
 .section-title{font-size:16px;font-weight:700;color:#111;}
 .section-sub{font-size:12px;color:#9ca3af;margin-top:1px;}
@@ -621,15 +638,32 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 <div class="screen active" id="screen-dash">
   <div class="topbar">
     <div><div class="topbar-title">Tarefas Autopilot</div><div class="topbar-sub">Visão de gestão · DP, Fiscal e Contábil · <span id="gtr-period">Jun/2026</span></div></div>
-    <div class="topbar-right">
-      <div class="tb-badge"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Jun/2026 ▾</div>
-      <div class="tb-btn">← Voltar pra fila</div>
-    </div>
   </div>
   <div class="content">
     <!-- ═══ FILTER BOX (topo) ═══ -->
     <div class="filter-box">
-      <div class="filter-chip">📅 Hoje <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+      <div class="filter-dropdown" id="data-dropdown">
+        <div class="filter-chip filter-chip-active" id="data-chip" onclick="toggleFDD('data')">
+          📅 Hoje <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="filter-dropdown-menu cal-menu" id="data-menu">
+          <div class="cal-header">
+            <div class="cal-nav" onclick="calNav(-1)">‹</div>
+            <div class="cal-month" id="cal-month-label">Junho 2026</div>
+            <div class="cal-nav" onclick="calNav(1)">›</div>
+          </div>
+          <div class="cal-weekdays">
+            <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="cal-footer">
+            <div class="cal-quick" onclick="calSelectQuick('Hoje')">Hoje</div>
+            <div class="cal-quick" onclick="calSelectQuick('Ontem')">Ontem</div>
+            <div class="cal-quick" onclick="calSelectQuick('Esta semana')">Esta semana</div>
+            <div class="cal-quick" onclick="calSelectQuick('Este mês')">Este mês</div>
+          </div>
+        </div>
+      </div>
       <div class="filter-dropdown" id="cliente-dropdown">
         <div class="filter-chip" id="cliente-chip" onclick="toggleFDD('cliente')">
           Cliente <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
@@ -760,7 +794,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
 
     <div id="gbview-operador">
     <div class="section-header">
-      <div><div class="section-title">Operação (27)</div><div class="section-sub">Agrupe e expanda pra ver as tarefas · hoje pros volumes</div></div>
+      <div><div class="section-title">Operação (19)</div><div class="section-sub">Agrupe e expanda pra ver as tarefas · hoje pros volumes</div></div>
     </div>
 
     <!-- Sem dono -->
@@ -928,7 +962,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
       <div class="op-header" onclick="toggleGroup('tha')">
         <div class="op-avatar" style="background:#7c3aed;">TA</div>
         <div style="flex:1;"><div class="op-name">Thaís Almeida</div><div class="op-name-sub"><span class="dept-badge ctb">Contábil</span></div></div>
-        <div class="op-pills"><span class="pill hitl-p">1 Aguard. Op.</span><span class="pill execucao">5 em execução</span><span class="pill espera">3 em espera</span><span class="pill concluida-p">7 concluída</span></div>
+        <div class="op-pills"><span class="pill hitl-p">1 Aguard. Op.</span><span class="pill execucao">2 em execução</span><span class="pill concluida-p">5 concluída</span></div>
         <svg class="op-chevron open" id="chev-tha" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div id="rows-tha">
@@ -950,24 +984,6 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-hitl">⚠ Aguard. Operador</span></div></td>
               <td><div class="td-prazo-wrap"><div class="task-prazo">17/06/2026 · 18:00</div><div class="task-sla-warn"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:10px;height:10px;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>Em risco</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr" id="row-concdp" onclick="openPanel('concdp')">
-              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação DP <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-prazo">18/06/2026 · 18:00</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr" id="row-concfis" onclick="openPanel('concfis')">
-              <td><div class="task-cell"><div class="task-bar b-run" style="background:#3b82f6;"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Fiscal <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-prazo">19/06/2026 · 18:00</div></div></td>
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr" id="row-balancete" onclick="openPanel('balancete')">
@@ -1004,60 +1020,6 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
               <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
               <td><div class="td-prazo-wrap"><div class="task-prazo">20/06/2026 · 18:00</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Extratos <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-prazo">17/06/2026 · 18:00</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Fiscal <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">14/06 · 09:30</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h6v6m-9 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Beta LTDA</div><div class="task-cnpj">98.765.432/0001-10 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conferência Balancete Mensal <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-prazo">21/06/2026 · 18:00</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-ok"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação Extratos <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-ok">Concluída</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-entregue">Entregue</div><div class="task-entregue-sub">15/06 · 11:00</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conciliação DP <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-prazo">19/06/2026 · 18:00</div></div></td>
-              <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
-            </tr>
-            <tr class="task-row-tr">
-              <td><div class="task-cell"><div class="task-bar b-run"></div><div class="task-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h6v6m-9 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div><div class="task-info"><div class="task-name">Gama ME</div><div class="task-cnpj">33.110.928/0001-71 <span class="task-origem">· Origem: ContJet</span></div><div class="task-erp">ERP operado: Autopilot</div></div></div></td>
-              <td><div class="cell-pad"><div class="task-tipo-col">Conferência Balancete Mensal <span class="tag-autopilot">via Autopilot</span></div></div></td>
-              <td><div class="cell-pad"><span class="dept-badge ctb">Contábil</span></div></td>
-              <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-run">Em execução</span></div></td>
-              <td><div class="td-prazo-wrap"><div class="task-prazo">22/06/2026 · 18:00</div></div></td>
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
             <tr class="task-row-tr">
@@ -1174,7 +1136,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           <div class="cli2-motor">
             <div class="cli2-motor-tag dp">DP</div>
             <div class="cli2-motor-bar-col">
-              <div class="cli2-mbar"><div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Folha Pró-Labore — etapa 5 de 6</div></div></div></div>
+              <div class="cli2-mbar"><div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Folha Pró-Labore — etapa 3 de 4</div></div></div></div>
               <div class="cli2-mlegend"><span class="run-t">1 em execução (etapa 5/6)</span></div>
             </div>
             <div class="cli2-pct-badge run">83%</div>
@@ -1204,7 +1166,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
         <svg class="cli2-chevron" id="dgc2-chev-beta" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();dgC2Toggle('beta')"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="cli2-body" id="dgc2-body-beta" style="display:none;">
-        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Folha Pró-Labore — etapa 5 de 6</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Folha Pró-Labore — etapa 3 de 4</div><div class="cli2-body-val">0/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração DAS</div><div class="cli2-body-val">0/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Cálculo DIFAL</div><div class="cli2-body-val">0/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação Extratos</div><div class="cli2-body-val">0/1</div></div>
@@ -1669,19 +1631,19 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
     <div class="tm-body-scroll">
         <div class="tm-tabpanel active" data-tabpanel="folha-sa-feito">
           <div class="sp-stepper">
-      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
+      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Verificação Inicial</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
-      <div class="sp-step"><div class="sp-circle current">2</div><div class="sp-label current-l">Atuação do operador</div><div class="sp-sublabel current-s">Em andamento</div></div>
+      <div class="sp-step"><div class="sp-circle current">2</div><div class="sp-label current-l">Processamento e Cálculo</div><div class="sp-sublabel current-s">Em andamento</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">3</div><div class="sp-label">Processamento</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">3</div><div class="sp-label">Transmissão Obrigações</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Entrega ao Cliente</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
           <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">3 de 9 etapas concluídas (33%)</div></div>
-      <div class="cl-group-label">Verificação inicial</div>
+      <div class="cl-group-label">Verificação Inicial</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar completude dos insumos</div><div class="cl-detail">Todos os dados do mês confirmados — 12 colaboradores ativos</div></div><div class="cl-right"><div class="cl-time">14/06 · 09:02</div></div></div>
-      <div class="cl-group-label">Cálculo da folha</div>
+      <div class="cl-group-label">Processamento e Cálculo</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Processar cálculo da folha CLT</div><div class="cl-detail">12 colaboradores · Total líquido: R$ 48.320,00</div></div><div class="cl-right"><div class="cl-time">14/06 · 09:07</div></div></div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar resultado com histórico do cliente</div><div class="cl-detail">Comparação com média dos últimos 6 meses executada</div></div><div class="cl-right"><div class="cl-time">14/06 · 09:11</div></div></div>
       <div class="cl-row cl-hitl-row" onclick="goTo('hitl')">
@@ -1689,12 +1651,12 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
         <div class="cl-info"><div class="cl-name" style="color:#b45309;">Anomalia detectada — valor acima da curva histórica</div><div class="cl-detail">R$ 48.320 vs. média R$ 39.200 · variação +23,3% · aguardando análise</div></div>
         <div class="cl-right"><span class="cl-badge-link coral"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Ver pendência</span><div class="cl-time" style="color:#d97706;">14/06 · 09:11</div></div>
       </div>
-      <div class="cl-group-label">eSocial e FGTS</div>
+      <div class="cl-group-label">Transmissão Obrigações</div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Enviar folha para o eSocial</div><div class="cl-detail">Aguardando resolução da anomalia</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Receber retorno e protocolo do eSocial</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Gerar FGTS mensal</div><div class="cl-detail">Arquivo SEFIP/FGTS Digital</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
-      <div class="cl-group-label">Guias, relatórios e entrega</div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Gerar guias de pagamento</div><div class="cl-detail">DARF INSS, IRRF e FGTS</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+      <div class="cl-group-label">Entrega ao Cliente</div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Gerar relatórios e holerites</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar ao cliente via Hub e e-mail</div><div class="cl-detail">GDocs · GPC · notificação</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="dep-block"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg><div class="dep-block-info"><div class="dep-block-title">DCTFWeb aguarda a conclusão desta tarefa</div><div class="dep-block-detail">Tarefa #DP-20603 está bloqueada · liberada ao concluir <span class="cl-badge-link purple" onclick="openPanel('dctf')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Ver tarefa</span></div></div></div>
@@ -1724,26 +1686,26 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
     <div class="tm-body-scroll">
         <div class="tm-tabpanel active" data-tabpanel="folha-pl-feito">
           <div class="sp-stepper">
-      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Recebida</div><div class="sp-sublabel done-s">Concluído</div></div>
+      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Verificação Inicial</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
-      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Atuação do operador</div><div class="sp-sublabel done-s">Concluído</div></div>
+      <div class="sp-step"><div class="sp-circle done">✓</div><div class="sp-label done-l">Processamento e Cálculo</div><div class="sp-sublabel done-s">Concluído</div></div>
       <div class="sp-line done-line"></div>
-      <div class="sp-step"><div class="sp-circle current">3</div><div class="sp-label current-l">Processamento</div><div class="sp-sublabel current-s">Em andamento</div></div>
+      <div class="sp-step"><div class="sp-circle current">3</div><div class="sp-label current-l">Transmissão Obrigações</div><div class="sp-sublabel current-s">Em andamento</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Entrega ao Cliente</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
           <div class="sp-body">
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">5 de 8 etapas concluídas (62%)</div></div>
-      <div class="cl-group-label">Verificação inicial</div>
+      <div class="cl-group-label">Verificação Inicial</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar completude dos insumos</div><div class="cl-detail">Dados do mês confirmados — 3 sócios ativos</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:46</div></div></div>
-      <div class="cl-group-label">Cálculo da folha</div>
+      <div class="cl-group-label">Processamento e Cálculo</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Processar cálculo do pró-labore</div><div class="cl-detail">3 sócios · Total líquido: R$ 21.600,00</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:50</div></div></div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Verificar resultado com histórico do cliente</div><div class="cl-detail">Dentro da margem esperada — sem anomalia</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:51</div></div></div>
-      <div class="cl-group-label">eSocial</div>
+      <div class="cl-group-label">Transmissão Obrigações</div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Enviar folha para o eSocial</div><div class="cl-detail">Eventos S-1200 e S-1210 transmitidos</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:54</div></div></div>
       <div class="cl-row"><div class="cl-check done">✓</div><div class="cl-info"><div class="cl-name">Receber retorno e protocolo do eSocial</div><div class="cl-detail">Protocolo: 1.2.202506.00091872 · aceito</div></div><div class="cl-right"><div class="cl-time">14/06 · 08:58</div></div></div>
-      <div class="cl-group-label">Guias, relatórios e entrega</div>
       <div class="cl-row"><div class="cl-check running">▶</div><div class="cl-info"><div class="cl-name" style="color:#1d4ed8;">Gerar guias de pagamento</div><div class="cl-detail">Processando DARF INSS e IRRF...</div></div><div class="cl-right"><div class="cl-time" style="color:#3b82f6;">14/06 · agora</div></div></div>
+      <div class="cl-group-label">Entrega ao Cliente</div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Gerar relatórios e demonstrativos</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.38;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar ao cliente via Hub e e-mail</div><div class="cl-detail">GDocs · GPC · notificação</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
@@ -1772,13 +1734,13 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
     <div class="tm-body-scroll">
         <div class="tm-tabpanel active" data-tabpanel="dctf-feito">
           <div class="sp-stepper">
-      <div class="sp-step"><div class="sp-circle waiting">1</div><div class="sp-label">Recebida</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">1</div><div class="sp-label">Verificação Inicial</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">2</div><div class="sp-label">Atuação do operador</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">2</div><div class="sp-label">Processamento e Cálculo</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">3</div><div class="sp-label">Processamento</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">3</div><div class="sp-label">Transmissão Obrigações</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Entrega ao Cliente</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
           <div class="sp-body">
       <div style="padding:12px 18px;background:#faf5ff;border-bottom:1px solid #ede9fe;display:flex;gap:9px;align-items:flex-start;">
@@ -1786,17 +1748,19 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
         <div><div style="font-size:12.5px;font-weight:600;color:#7c3aed;margin-bottom:2px;">Esta tarefa está bloqueada</div><div style="font-size:11.5px;color:#6d28d9;">Aguardando conclusão da <span style="font-weight:600;text-decoration:underline;cursor:pointer;" onclick="openPanel('folha-sa')">Folha sem Apontamentos (#DP-20601)</span> · será liberada automaticamente.</div></div>
       </div>
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">0 de 6 etapas concluídas (0%)</div></div>
-      <div class="cl-group-label">Pré-condição</div>
+      <div class="cl-group-label">Verificação Inicial</div>
       <div class="cl-row cl-dep-row" onclick="openPanel('folha-sa')">
         <div class="cl-check dep">⊡</div>
         <div class="cl-info"><div class="cl-name" style="color:#7c3aed;">Aguardar conclusão da Folha do ciclo</div><div class="cl-detail">Tarefa #DP-20601 precisa ser concluída primeiro</div></div>
         <div class="cl-right"><span class="cl-badge-link purple" onclick="event.stopPropagation();openPanel('folha-sa')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>Ver Folha</span></div>
       </div>
-      <div class="cl-group-label">Processamento</div>
+      <div class="cl-group-label">Processamento e Cálculo</div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Gerar DCTFWeb a partir dos dados da folha</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Verificar resultado com histórico</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+      <div class="cl-group-label">Transmissão Obrigações</div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Transmitir DCTFWeb à Receita Federal</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Receber recibo de transmissão</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+      <div class="cl-group-label">Entrega ao Cliente</div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar comprovante ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
         </div>
@@ -1874,13 +1838,13 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
     <div class="tm-body-scroll">
         <div class="tm-tabpanel active" data-tabpanel="reinf-feito">
           <div class="sp-stepper">
-      <div class="sp-step"><div class="sp-circle waiting">1</div><div class="sp-label">Recebida</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">1</div><div class="sp-label">Verificação Inicial</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">2</div><div class="sp-label">Atuação do operador</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">2</div><div class="sp-label">Processamento e Cálculo</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">3</div><div class="sp-label">Processamento</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">3</div><div class="sp-label">Transmissão Obrigações</div><div class="sp-sublabel">Aguardando</div></div>
       <div class="sp-line wait-line"></div>
-      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Concluída</div><div class="sp-sublabel">Aguardando</div></div>
+      <div class="sp-step"><div class="sp-circle waiting">4</div><div class="sp-label">Entrega ao Cliente</div><div class="sp-sublabel">Aguardando</div></div>
     </div>
           <div class="sp-body">
       <!-- Not started block -->
@@ -1893,13 +1857,15 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
         </div>
       </div>
       <div class="sp-section-header"><div class="sp-section-title">Checklist de etapas</div><div class="sp-section-prog">0 de 6 etapas concluídas (0%)</div></div>
-      <div class="cl-group-label">Apuração</div>
+      <div class="cl-group-label">Verificação Inicial</div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Verificar dados para apuração REINF</div><div class="cl-detail">Consolidação de serviços tomados e prestados do período</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+      <div class="cl-group-label">Processamento e Cálculo</div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Calcular e gerar eventos REINF</div><div class="cl-detail">R-2010 e R-2020 conforme aplicável</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Verificar consistência dos eventos</div><div class="cl-detail">Retenções, valores e notas fiscais</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
-      <div class="cl-group-label">Transmissão e entrega</div>
+      <div class="cl-group-label">Transmissão Obrigações</div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Transmitir REINF ao eSocial</div><div class="cl-detail">Aguardando início do processamento</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Receber protocolo de aceite</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
+      <div class="cl-group-label">Entrega ao Cliente</div>
       <div class="cl-row" style="opacity:0.35;"><div class="cl-check idle"></div><div class="cl-info"><div class="cl-name muted">Disponibilizar comprovante ao cliente</div></div><div class="cl-right"><div class="cl-time">—</div></div></div>
     </div>
         </div>
@@ -2563,7 +2529,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           <div class="cli2-motor">
             <div class="cli2-motor-tag dp">DP</div>
             <div class="cli2-motor-bar-col">
-              <div class="cli2-mbar"><div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Folha Pró-Labore — etapa 5 de 6</div></div></div></div>
+              <div class="cli2-mbar"><div class="cli2-mseg run" style="width:100%;"><div class="cli2-mseg-tip"><span class="cli2-mseg-tip-title">▶ Em execução (1)</span><div class="cli2-mseg-tip-list">Folha Pró-Labore — etapa 3 de 4</div></div></div></div>
               <div class="cli2-mlegend"><span class="run-t">1 em execução (etapa 5/6)</span></div>
             </div>
             <div class="cli2-pct-badge run">83%</div>
@@ -2589,7 +2555,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
         <svg class="cli2-chevron" id="c2-chev-beta" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="width:14px;height:14px;" onclick="event.stopPropagation();c2Toggle('beta')"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="cli2-body" id="c2-body-beta" style="display:none;">
-        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Folha Pró-Labore — etapa 5 de 6</div><div class="cli2-body-val">0/1</div></div>
+        <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag dp">DP</div><div class="cli2-body-name">Folha Pró-Labore — etapa 3 de 4</div><div class="cli2-body-val">0/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Apuração DAS</div><div class="cli2-body-val">0/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag fiscal">Fiscal</div><div class="cli2-body-name">Cálculo DIFAL</div><div class="cli2-body-val">0/1</div></div>
         <div class="cli2-body-row"><div class="cli2-body-dot run"></div><div class="cli2-dept-tag ctb">Contábil</div><div class="cli2-body-name">Conciliação DP</div><div class="cli2-body-val">0/1</div></div>
@@ -2884,6 +2850,52 @@ document.addEventListener('click', function(e){
   });
 });
 
+// ── Calendário do filtro "Hoje" ──
+let calViewYear = 2026, calViewMonth = 5; // Junho = índice 5
+const CAL_TODAY = {year:2026, month:5, day:19};
+const CAL_MONTH_NAMES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+function calRender(){
+  const label = document.getElementById('cal-month-label');
+  if(label) label.textContent = CAL_MONTH_NAMES[calViewMonth]+' '+calViewYear;
+  const grid = document.getElementById('cal-grid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  const firstDay = new Date(calViewYear, calViewMonth, 1).getDay();
+  const daysInMonth = new Date(calViewYear, calViewMonth+1, 0).getDate();
+  const prevDays = new Date(calViewYear, calViewMonth, 0).getDate();
+  for(let i=firstDay-1; i>=0; i--){
+    grid.innerHTML += '<div class="cal-day other-month">'+(prevDays-i)+'</div>';
+  }
+  for(let d=1; d<=daysInMonth; d++){
+    const isToday = (calViewYear===CAL_TODAY.year && calViewMonth===CAL_TODAY.month && d===CAL_TODAY.day);
+    grid.innerHTML += '<div class="cal-day'+(isToday?' today':'')+'" onclick="calSelectDay('+d+')">'+d+'</div>';
+  }
+  const totalCells = firstDay + daysInMonth;
+  const trailing = (7 - (totalCells % 7)) % 7;
+  for(let d=1; d<=trailing; d++){
+    grid.innerHTML += '<div class="cal-day other-month">'+d+'</div>';
+  }
+}
+function calNav(dir){
+  calViewMonth += dir;
+  if(calViewMonth < 0){ calViewMonth = 11; calViewYear--; }
+  if(calViewMonth > 11){ calViewMonth = 0; calViewYear++; }
+  calRender();
+}
+function calSelectDay(d){
+  const chip = document.getElementById('data-chip');
+  if(chip) chip.innerHTML = '📅 '+String(d).padStart(2,'0')+'/'+String(calViewMonth+1).padStart(2,'0')+' <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+  const menu = document.getElementById('data-menu');
+  if(menu) menu.classList.remove('open');
+}
+function calSelectQuick(label){
+  const chip = document.getElementById('data-chip');
+  if(chip) chip.innerHTML = '📅 '+label+' <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>';
+  const menu = document.getElementById('data-menu');
+  if(menu) menu.classList.remove('open');
+}
+calRender();
+
 
 /* ── FECHAMENTO MENSAL JS ── */
 
@@ -2893,23 +2905,25 @@ const clientData = {
     kpis: {total:34, concluidas:30, execucao:2, hitl:2, dep:1},
     tarefas: [
       { dept:'dp', tipo:'Folha sem Apontamentos', comp:'Jun/2026', prazo:'14/06/2026 · 18:00', status:'hitl',
-        stages:[{name:'Verificação inicial',status:'done'},{name:'Cálculo da folha',status:'hitl'},{name:'eSocial e FGTS',status:'idle'},{name:'Guias e relatórios',status:'idle'},{name:'Entrega ao cliente',status:'idle'}],
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'hitl'},{name:'Transmissão Obrigações',status:'idle'},{name:'Entrega ao Cliente',status:'idle'}],
         checklist:[
-          {g:'Verificação inicial', items:[{s:'done', name:'Verificar completude dos insumos', detail:'12 colaboradores ativos', time:'14/06 · 09:02'}]},
-          {g:'Cálculo da folha', items:[
+          {g:'Verificação Inicial', items:[{s:'done', name:'Verificar completude dos insumos', detail:'12 colaboradores ativos', time:'14/06 · 09:02'}]},
+          {g:'Processamento e Cálculo', items:[
             {s:'done', name:'Processar cálculo da folha CLT', detail:'12 colaboradores · Total líquido: R$ 48.320,00', time:'14/06 · 09:07'},
             {s:'done', name:'Verificar resultado com histórico', detail:'Comparação executada', time:'14/06 · 09:11'},
             {s:'hitl', name:'Anomalia detectada — valor acima da curva', detail:'R$ 48.320 vs. média R$ 39.200 · variação +23,3%', time:'14/06 · 09:11', link:true},
           ]},
-          {g:'eSocial e FGTS', items:[{s:'idle', name:'Enviar folha para o eSocial', detail:'Aguardando resolução'}, {s:'idle', name:'Receber retorno e protocolo'}, {s:'idle', name:'Gerar FGTS mensal'}]},
-          {g:'Guias, relatórios e entrega', items:[{s:'idle', name:'Gerar guias de pagamento'}, {s:'idle', name:'Gerar relatórios e holerites'}, {s:'idle', name:'Disponibilizar ao cliente'}]},
+          {g:'Transmissão Obrigações', items:[{s:'idle', name:'Enviar folha para o eSocial', detail:'Aguardando resolução'}, {s:'idle', name:'Receber retorno e protocolo'}, {s:'idle', name:'Gerar FGTS mensal'}]},
+          {g:'Entrega ao Cliente', items:[{s:'idle', name:'Gerar guias de pagamento'}, {s:'idle', name:'Gerar relatórios e holerites'}, {s:'idle', name:'Disponibilizar ao cliente'}]},
         ]
       },
       { dept:'dp', tipo:'DCTFWeb', comp:'Jun/2026', prazo:'20/06/2026 · 23:59', status:'dep',
-        stages:[{name:'Pré-condição',status:'dep'},{name:'Gerar DCTFWeb',status:'idle'},{name:'Verificação',status:'idle'},{name:'Transmissão',status:'idle'},{name:'Entrega',status:'idle'}],
+        stages:[{name:'Verificação Inicial',status:'dep'},{name:'Processamento e Cálculo',status:'idle'},{name:'Transmissão Obrigações',status:'idle'},{name:'Entrega ao Cliente',status:'idle'}],
         checklist:[
-          {g:'Pré-condição', items:[{s:'dep', name:'Aguardar conclusão da Folha sem Apontamentos', detail:'Tarefa #DP-20601 · será liberada automaticamente'}]},
-          {g:'Processamento e entrega', items:[{s:'idle', name:'Gerar DCTFWeb'}, {s:'idle', name:'Verificar resultado'}, {s:'idle', name:'Transmitir à Receita Federal'}, {s:'idle', name:'Receber recibo'}, {s:'idle', name:'Disponibilizar comprovante'}]},
+          {g:'Verificação Inicial', items:[{s:'dep', name:'Aguardar conclusão da Folha sem Apontamentos', detail:'Tarefa #DP-20601 · será liberada automaticamente'}]},
+          {g:'Processamento e Cálculo', items:[{s:'idle', name:'Gerar DCTFWeb'}, {s:'idle', name:'Verificar resultado'}]},
+          {g:'Transmissão Obrigações', items:[{s:'idle', name:'Transmitir à Receita Federal'}, {s:'idle', name:'Receber recibo'}]},
+          {g:'Entrega ao Cliente', items:[{s:'idle', name:'Disponibilizar comprovante'}]},
         ]
       },
       { dept:'dp', tipo:'Admissões (10 no ciclo)', comp:'Jun/2026', prazo:'Diversos', status:'run',
@@ -2935,16 +2949,16 @@ const clientData = {
         checklist:[{g:'Resumo', items:[{s:'done', name:'Apuração DAS concluída', detail:'Guia gerada e entregue ao cliente', time:'13/06 · 14:20'}]}]
       },
       { dept:'fiscal', tipo:'REINF', comp:'Jun/2026', prazo:'20/06/2026', status:'wait',
-        stages:[{name:'Recebida',status:'wait'},{name:'Processamento',status:'wait'},{name:'Transmissão',status:'wait'},{name:'Entrega',status:'wait'}],
-        checklist:[{g:'Apuração', items:[{s:'idle', name:'Verificar dados para apuração REINF', detail:'Início previsto: 18/06/2026'}]}]
+        stages:[{name:'Verificação Inicial',status:'wait'},{name:'Processamento e Cálculo',status:'wait'},{name:'Transmissão Obrigações',status:'wait'},{name:'Entrega ao Cliente',status:'wait'}],
+        checklist:[{g:'Verificação Inicial', items:[{s:'idle', name:'Verificar dados para apuração REINF', detail:'Início previsto: 18/06/2026'}]}]
       },
       { dept:'fiscal', tipo:'Apuração ISS', comp:'Jun/2026', prazo:'Entregue · 12/06', status:'ok',
-        stages:[{name:'Apuração',status:'done'},{name:'Verificação',status:'done'},{name:'Guia',status:'done'},{name:'Entrega',status:'done'}],
-        checklist:[{g:'Resumo', items:[{s:'done', name:'Apuração ISS concluída', detail:'Guia gerada e entregue', time:'12/06 · 10:30'}]}]
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'done'},{name:'Entrega ao Cliente',status:'done'}],
+        checklist:[{g:'Entrega ao Cliente', items:[{s:'done', name:'Apuração ISS concluída', detail:'Guia gerada e entregue', time:'12/06 · 10:30'}]}]
       },
       { dept:'fiscal', tipo:'Cálculo DIFAL', comp:'Jun/2026', prazo:'Entregue · 11/06', status:'ok',
-        stages:[{name:'Elegibilidade',status:'done'},{name:'Cálculo',status:'done'},{name:'Guia',status:'done'},{name:'Entrega',status:'done'}],
-        checklist:[{g:'Resumo', items:[{s:'done', name:'Cálculo DIFAL concluído', detail:'Guia gerada e entregue', time:'11/06 · 16:00'}]}]
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'done'},{name:'Entrega ao Cliente',status:'done'}],
+        checklist:[{g:'Entrega ao Cliente', items:[{s:'done', name:'Cálculo DIFAL concluído', detail:'Guia gerada e entregue', time:'11/06 · 16:00'}]}]
       },
       { dept:'ctb', tipo:'Conciliação Extratos', comp:'Jun/2026', prazo:'17/06/2026 · 18:00', status:'hitl',
         stages:[{name:'Importação',status:'done'},{name:'Matching',status:'done'},{name:'Verificação',status:'hitl'},{name:'Lançamento',status:'idle'},{name:'Entrega',status:'idle'}],
@@ -2964,14 +2978,12 @@ const clientData = {
     kpis: {total:5, concluidas:1, execucao:4, hitl:0, dep:0},
     tarefas: [
       { dept:'dp', tipo:'Folha Pró-Labore', comp:'Jun/2026', prazo:'14/06/2026 · 18:00', status:'run',
-        stages:[{name:'Verificação inicial',status:'done'},{name:'Cálculo da folha',status:'done'},{name:'eSocial',status:'done'},{name:'Guias e relatórios',status:'running'},{name:'Entrega',status:'idle'}],
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'running'},{name:'Entrega ao Cliente',status:'idle'}],
         checklist:[
-          {g:'Verificação e cálculo', items:[
-            {s:'done', name:'Verificar completude dos insumos', detail:'3 sócios ativos', time:'14/06 · 08:46'},
-            {s:'done', name:'Processar cálculo do pró-labore', detail:'3 sócios · Total líquido: R$ 21.600,00', time:'14/06 · 08:50'},
-          ]},
-          {g:'eSocial', items:[{s:'done', name:'Enviar folha ao eSocial', detail:'S-1200/S-1210 transmitidos', time:'14/06 · 08:54'}, {s:'done', name:'Receber protocolo', time:'14/06 · 08:58'}]},
-          {g:'Guias e entrega', items:[{s:'run', name:'Gerar guias de pagamento', detail:'Processando DARF e IRRF...', time:'14/06 · agora'}, {s:'idle', name:'Disponibilizar ao cliente'}]},
+          {g:'Verificação Inicial', items:[{s:'done', name:'Verificar completude dos insumos', detail:'3 sócios ativos', time:'14/06 · 08:46'}]},
+          {g:'Processamento e Cálculo', items:[{s:'done', name:'Processar cálculo do pró-labore', detail:'3 sócios · Total líquido: R$ 21.600,00', time:'14/06 · 08:50'}]},
+          {g:'Transmissão Obrigações', items:[{s:'done', name:'Enviar folha ao eSocial', detail:'S-1200/S-1210 transmitidos', time:'14/06 · 08:54'}, {s:'done', name:'Receber protocolo', time:'14/06 · 08:58'}, {s:'run', name:'Gerar guias de pagamento', detail:'Processando DARF e IRRF...', time:'14/06 · agora'}]},
+          {g:'Entrega ao Cliente', items:[{s:'idle', name:'Disponibilizar ao cliente'}]},
         ]
       },
       { dept:'fiscal', tipo:'Apuração DAS', comp:'Jun/2026', prazo:'15/06/2026 · 18:00', status:'run',
@@ -3021,8 +3033,11 @@ const clientData = {
         ]
       },
       { dept:'fiscal', tipo:'Cálculo DIFAL', comp:'Jun/2026', prazo:'19/06/2026', status:'run',
-        stages:[{name:'Elegibilidade',status:'done'},{name:'Cálculo',status:'running'},{name:'Guia',status:'idle'},{name:'Entrega',status:'idle'}],
-        checklist:[{g:'Apuração', items:[{s:'done', name:'Verificar elegibilidade', time:'14/06 · 09:10'}, {s:'run', name:'Calcular DIFAL', detail:'Em processamento...'}]}]
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'running'},{name:'Transmissão Obrigações',status:'idle'},{name:'Entrega ao Cliente',status:'idle'}],
+        checklist:[
+          {g:'Verificação Inicial', items:[{s:'done', name:'Verificar elegibilidade', time:'14/06 · 09:10'}]},
+          {g:'Processamento e Cálculo', items:[{s:'run', name:'Calcular DIFAL', detail:'Em processamento...'}]},
+        ]
       },
       { dept:'ctb', tipo:'Conciliação DP', comp:'Jun/2026', prazo:'18/06/2026 · 18:00', status:'run',
         stages:[{name:'Importação',status:'done'},{name:'Matching',status:'running'},{name:'Verificação',status:'idle'},{name:'Lançamento',status:'idle'},{name:'Entrega',status:'idle'}],
@@ -3084,8 +3099,8 @@ const clientData = {
         ]
       },
       { dept:'fiscal', tipo:'REINF', comp:'Jun/2026', prazo:'20/06/2026', status:'wait',
-        stages:[{name:'Recebida',status:'wait'},{name:'Processamento',status:'wait'},{name:'Transmissão',status:'wait'},{name:'Entrega',status:'wait'}],
-        checklist:[{g:'Apuração', items:[{s:'idle', name:'Verificar dados para apuração REINF', detail:'Aguardando início'}]}]
+        stages:[{name:'Verificação Inicial',status:'wait'},{name:'Processamento e Cálculo',status:'wait'},{name:'Transmissão Obrigações',status:'wait'},{name:'Entrega ao Cliente',status:'wait'}],
+        checklist:[{g:'Verificação Inicial', items:[{s:'idle', name:'Verificar dados para apuração REINF', detail:'Aguardando início'}]}]
       },
       { dept:'ctb', tipo:'Conciliação Fiscal', comp:'Jun/2026', prazo:'19/06/2026 · 18:00', status:'run',
         stages:[{name:'Importação',status:'done'},{name:'Matching',status:'running'},{name:'Verificação',status:'idle'},{name:'Lançamento',status:'idle'},{name:'Entrega',status:'idle'}],
@@ -3102,8 +3117,8 @@ const clientData = {
     kpis: {total:1, concluidas:0, execucao:0, hitl:0, dep:0},
     tarefas: [
       { dept:'fiscal', tipo:'REINF', comp:'Jun/2026', prazo:'20/06/2026 · 12:00', status:'wait',
-        stages:[{name:'Recebida',status:'wait'},{name:'Processamento',status:'wait'},{name:'Transmissão',status:'wait'},{name:'Entrega',status:'wait'}],
-        checklist:[{g:'Apuração', items:[{s:'idle', name:'Verificar dados para apuração REINF', detail:'Início previsto: 18/06/2026'}]}]
+        stages:[{name:'Verificação Inicial',status:'wait'},{name:'Processamento e Cálculo',status:'wait'},{name:'Transmissão Obrigações',status:'wait'},{name:'Entrega ao Cliente',status:'wait'}],
+        checklist:[{g:'Verificação Inicial', items:[{s:'idle', name:'Verificar dados para apuração REINF', detail:'Início previsto: 18/06/2026'}]}]
       },
     ]
   },
@@ -3112,11 +3127,12 @@ const clientData = {
     kpis: {total:5, concluidas:5, execucao:0, hitl:0, dep:0},
     tarefas: [
       { dept:'dp', tipo:'Folha sem Apontamentos', comp:'Jun/2026', prazo:'Entregue · 12/06', status:'ok',
-        stages:[{name:'Verificação inicial',status:'done'},{name:'Cálculo da folha',status:'done'},{name:'eSocial e FGTS',status:'done'},{name:'Guias e relatórios',status:'done'},{name:'Entrega',status:'done'}],
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'done'},{name:'Entrega ao Cliente',status:'done'}],
         checklist:[
-          {g:'Verificação e cálculo', items:[{s:'done', name:'Verificar completude dos insumos', detail:'8 colaboradores ativos', time:'12/06 · 09:00'}, {s:'done', name:'Processar cálculo', detail:'Total líquido: R$ 31.200,00', time:'12/06 · 09:05'}]},
-          {g:'eSocial', items:[{s:'done', name:'Enviar folha ao eSocial', time:'12/06 · 09:10'}, {s:'done', name:'Gerar FGTS mensal', time:'12/06 · 09:16'}]},
-          {g:'Entrega', items:[{s:'done', name:'Disponibilizar ao cliente via Hub', detail:'Publicado no GPC · cliente notificado', time:'12/06 · 09:25'}]},
+          {g:'Verificação Inicial', items:[{s:'done', name:'Verificar completude dos insumos', detail:'8 colaboradores ativos', time:'12/06 · 09:00'}]},
+          {g:'Processamento e Cálculo', items:[{s:'done', name:'Processar cálculo', detail:'Total líquido: R$ 31.200,00', time:'12/06 · 09:05'}]},
+          {g:'Transmissão Obrigações', items:[{s:'done', name:'Enviar folha ao eSocial', time:'12/06 · 09:10'}, {s:'done', name:'Gerar FGTS mensal', time:'12/06 · 09:16'}]},
+          {g:'Entrega ao Cliente', items:[{s:'done', name:'Disponibilizar ao cliente via Hub', detail:'Publicado no GPC · cliente notificado', time:'12/06 · 09:25'}]},
         ]
       },
       { dept:'dp', tipo:'Admissão — João da Silva', comp:'Jun/2026', prazo:'Entregue · 14/06', status:'ok',
@@ -3132,8 +3148,8 @@ const clientData = {
         checklist:[{g:'Resumo', items:[{s:'done', name:'Apuração DAS concluída', time:'13/06 · 11:00'}]}]
       },
       { dept:'fiscal', tipo:'Apuração ISS', comp:'Jun/2026', prazo:'Entregue · 13/06', status:'ok',
-        stages:[{name:'Apuração',status:'done'},{name:'Verificação',status:'done'},{name:'Guia',status:'done'},{name:'Entrega',status:'done'}],
-        checklist:[{g:'Resumo', items:[{s:'done', name:'Apuração ISS concluída', time:'13/06 · 11:30'}]}]
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'done'},{name:'Transmissão Obrigações',status:'done'},{name:'Entrega ao Cliente',status:'done'}],
+        checklist:[{g:'Entrega ao Cliente', items:[{s:'done', name:'Apuração ISS concluída', time:'13/06 · 11:30'}]}]
       },
       { dept:'ctb', tipo:'Conferência Balancete Mensal', comp:'Jun/2026', prazo:'Entregue · 13/06', status:'ok',
         stages:[{name:'Fechamento',status:'done'},{name:'Conferência',status:'done'},{name:'Ajustes',status:'done'},{name:'Entrega',status:'done'}],
@@ -3146,10 +3162,13 @@ const clientData = {
     kpis: {total:1, concluidas:0, execucao:0, hitl:1, dep:0},
     tarefas: [
       { dept:'fiscal', tipo:'Apuração ISS', comp:'Jun/2026', prazo:'18/06/2026 · 18:00', status:'hitl',
-        stages:[{name:'Apuração',status:'done'},{name:'Verificação',status:'hitl'},{name:'Guia',status:'idle'},{name:'Entrega',status:'idle'}],
+        stages:[{name:'Verificação Inicial',status:'done'},{name:'Processamento e Cálculo',status:'hitl'},{name:'Transmissão Obrigações',status:'idle'},{name:'Entrega ao Cliente',status:'idle'}],
         checklist:[
-          {g:'Apuração', items:[{s:'done', name:'Calcular ISS', detail:'Valor apurado: R$ 4.180,00', time:'14/06 · 09:00'}]},
-          {g:'Verificação', items:[{s:'hitl', name:'Anomalia detectada — valor acima da curva histórica', detail:'R$ 4.180 vs. média R$ 2.900 · variação +44%', time:'14/06 · 09:05', link:true}]},
+          {g:'Verificação Inicial', items:[{s:'done', name:'Verificar elegibilidade e dados do cliente', time:'14/06 · 08:58'}]},
+          {g:'Processamento e Cálculo', items:[
+            {s:'done', name:'Calcular ISS', detail:'Valor apurado: R$ 4.180,00', time:'14/06 · 09:00'},
+            {s:'hitl', name:'Anomalia detectada — valor acima da curva histórica', detail:'R$ 4.180 vs. média R$ 2.900 · variação +44%', time:'14/06 · 09:05', link:true},
+          ]},
         ]
       },
     ]
