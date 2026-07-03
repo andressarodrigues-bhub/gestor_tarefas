@@ -763,7 +763,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
           <div class="fdm-item" onclick="selectFDD('estado','Em execução',this)">Em execução</div>
           <div class="fdm-item" onclick="selectFDD('estado','Em espera',this)">Em espera</div>
           <div class="fdm-item" onclick="selectFDD('estado','Concluída',this)">Concluída</div>
-          <div class="fdm-item" onclick="selectFDD('estado','Aguard. Dependência',this)">Aguard. Dependência</div>
+          <div class="fdm-item" onclick="selectFDD('estado','Dependência',this)">Dependência</div>
         </div>
       </div>
       <div class="filter-chip active-hitl">⚠ HITL (6) ×</div>
@@ -864,7 +864,7 @@ body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:
               <td><div class="cell-pad"><div class="task-tipo-col">DCTFWeb <span class="tag-autopilot">via Autopilot</span></div></div></td>
               <td><div class="cell-pad"><span class="dept-badge dp">DP</span></div></td>
               <td><div class="cell-pad"><span class="competencia-col">Jun/2026</span></div></td>
-              <td><div class="cell-pad"><span class="state-badge s-dep">⊡ Aguard. Dependência</span></div></td>
+              <td><div class="cell-pad"><span class="state-badge s-dep">⊡ Dependência</span></div></td>
               <td><div class="td-prazo-wrap"><div class="task-prazo">20/06/2026 · 23:59</div></div></td>
               <td class="td-eye"><div class="task-eye"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg></div></td>
             </tr>
@@ -3303,7 +3303,7 @@ function openClient(id){
     hitl:'<span class="spill hitl" style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#fff7ed;color:#c2410c;border:1px solid #fdba74;">⚠ Aguard. Operador</span>',
     run:'<span class="spill run" style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;">▶ Em execução</span>',
     ok:'<span class="spill ok" style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#f0fdf4;color:#15803d;border:1px solid #86efac;">✓ Concluída</span>',
-    dep:'<span class="spill dep" style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;">⊡ Aguard. Dependência</span>',
+    dep:'<span class="spill dep" style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#f5f3ff;color:#7c3aed;border:1px solid #ddd6fe;">⊡ Dependência</span>',
     wait:'<span class="spill wait" style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;background:#f9fafb;color:#6b7280;border:1px solid #e5e7eb;">○ Em espera</span>',
   };
 
